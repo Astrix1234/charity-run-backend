@@ -4,6 +4,7 @@ export const validateUserQuery = (req, res, next) => {
   const schema = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().min(6).required(),
+    language: Joi.string().valid("EN", "PL").required(),
   });
 
   const { error } = schema.validate(req.body);

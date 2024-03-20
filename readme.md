@@ -41,7 +41,7 @@ To run the project locally, follow these steps:
 
 - Clone the repository to your device.
 - Install dependencies using npm install.
-- Create a .env file in the main project directory and configure environment variables (PORT, DB_HOST, SECRET, SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD, API_KEY, BACKEND_URL).
+- Create a .env file in the main project directory and configure environment variables (PORT, DB_HOST, SECRET, SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD, BACKEND_URL).
 - Start the local server using npm start.
 
 ## API Usage
