@@ -12,6 +12,12 @@ const user = new Schema({
     required: [true, "Email is required"],
     unique: true,
   },
+  language: {
+    type: String,
+    required: [true, "Language is required"],
+    enum: ["PL", "EN"],
+    default: "PL",
+  },
   subscription: {
     type: String,
     enum: ["starter", "pro", "business"],

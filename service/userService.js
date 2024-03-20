@@ -14,7 +14,6 @@ const registerUser = async (userData) => {
 
   const verificationToken = nanoid();
   console.log("Generated verification token:", verificationToken);
-
   const newUser = new User({
     ...userData,
     avatarURL: gravatarUrl,
