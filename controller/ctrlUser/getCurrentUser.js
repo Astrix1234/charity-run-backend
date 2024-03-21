@@ -13,7 +13,15 @@ export const getCurrentUser = async (req, res, next) => {
     }
     res
       .status(200)
-      .json({ email: user.email, subscription: user.subscription });
+      .json({
+        email: user.email,
+        language: user.language,
+        name: user.name,
+        phone: user.phone,
+        shoe: user.shoe,
+        shirt: user.shirt,
+        shirtGender: user.shirtGender,
+      });
   } catch (error) {
     console.error(error);
     next(error);
