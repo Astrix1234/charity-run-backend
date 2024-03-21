@@ -4,7 +4,7 @@ import passport from "passport";
 import path from "path";
 import { fileURLToPath } from "url";
 
-import router from "./routes/api/contacts.js";
+// import router from "./routes/api/contacts.js";
 import routerUsers from "./routes/api/users.js";
 
 import "./config/config-passport.js";
@@ -25,7 +25,7 @@ app.use(passport.initialize());
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/api", router);
+// app.use("/api", router);
 app.use("/api", routerUsers);
 
 app.use((_, res, __) => {

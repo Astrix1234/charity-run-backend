@@ -1,0 +1,22 @@
+import Joi from "joi";
+
+export const validateUserRaceQuery = (req, res, next) => {
+  const schema = Joi.object({
+    // date: Joi.date().required(), //day of the race
+    // location: Joi.string().required(), //city
+    raceID: Joi.string().required(), //id of race - for filtering how many participants in specific race we have
+    km: Joi.number().min(0).required(), //distance of user choice
+
+    userRaceID: Joi.string(), //number to identify person at the race and give them shirt shoes etc (safe for rodo?)
+    time: Joi.time(), //how long user took to finish the race //updated after race
+    status: Joi.string().valid("signed up", "participated").default("signed up"), //updated after race
+    paid: Joi.bool().default(false),
+    payment: Joi.object(), //all data needed to track the payment ?
+  });
+
+  const { error } = schema.validate(req.body);
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+  next();
+};

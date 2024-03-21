@@ -23,7 +23,7 @@ export const login = async (req, res, next) => {
 
     res.json({
       token,
-      user: { email: user.email, subscription: user.subscription },
+      user: { email: user.email, language: user.language },
     });
   } catch (error) {
     console.error(error);

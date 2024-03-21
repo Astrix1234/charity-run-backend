@@ -1,25 +1,25 @@
-import express from "express";
+// import express from "express";
 
-import { get } from "#ctrlContacts/getContacts.js";
-import { getById } from "#ctrlContacts/getContactById.js";
-import { create } from "#ctrlContacts/createContact.js";
-import { update } from "#ctrlContacts/updateContact.js";
-import { remove } from "#ctrlContacts/removeContact.js";
-import { updateStatus } from "#ctrlContacts/updateContactFavorite.js";
-import { validateContactQuery } from "#validators/contactQueryValidator.js";
+// import { get } from "#ctrlContacts/getContacts.js";
+// import { getById } from "#ctrlContacts/getContactById.js";
+// import { create } from "#ctrlContacts/createContact.js";
+// import { update } from "#ctrlContacts/updateContact.js";
+// import { remove } from "#ctrlContacts/removeContact.js";
+// import { updateStatus } from "#ctrlContacts/updateContactFavorite.js";
+// import { validateContactQuery } from "#validators/contactQueryValidator.js";
 
-const router = express.Router();
+// const router = express.Router();
 
-router.get("/contacts", validateContactQuery, get);
+// router.get("/contacts", validateContactQuery, get);
 
-router.get("/contacts/:id", getById);
+// router.get("/contacts/:id", getById);
 
-router.post("/contacts", create);
+// router.post("/contacts", create);
 
-router.put("/contacts/:id", update);
+// router.put("/contacts/:id", update);
 
-router.delete("/contacts/:id", remove);
+// router.delete("/contacts/:id", remove);
 
-router.patch("/contacts/:id/favorite", updateStatus);
+// router.patch("/contacts/:id/favorite", updateStatus);
 
-export default router;
+// export default router;

@@ -14,14 +14,28 @@ const user = new Schema({
   },
   language: {
     type: String,
-    required: [true, "Language is required"],
     enum: ["PL", "EN"],
     default: "PL",
   },
-  subscription: {
+  name: {
     type: String,
-    enum: ["starter", "pro", "business"],
-    default: "starter",
+    required: [true, "Name is required"],
+  },
+  phone: {
+    type: String,
+    required: [true, "Phone number is required"],
+  },
+  shoe: {
+    type: Number,
+    required: [true, "Shoe size is required"],
+  },
+  shirt: {
+    type: String,
+    required: [true, "Shirt size is required"],
+  },
+  shirtGender: {
+    type: String,
+    required: [true, "Shirt type is required"],
   },
   token: {
     type: String,
