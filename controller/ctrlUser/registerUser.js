@@ -2,8 +2,7 @@ import userService from "#service/userService.js";
 import bcrypt from "bcryptjs";
 
 export const register = async (req, res, next) => {
-  const { email, password, language, name, phone, shoe, shirt, shirtGender } =
-    req.body;
+  const { email, password, language, name, surname, phone } = req.body;
   try {
     const existingUser = await userService.findUserByEmail(email);
     if (existingUser) {
@@ -16,10 +15,8 @@ export const register = async (req, res, next) => {
       language,
       password: hashedPassword,
       name,
+      surname,
       phone,
-      shoe,
-      shirt,
-      shirtGender,
     });
     console.log("user", user);
     console.log("user.language", user.language);

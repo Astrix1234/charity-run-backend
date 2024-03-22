@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const user = new Schema({
+const race = new Schema({
   raceID: {
     type: String,
     // required: [true, "Race ID is required"],
@@ -26,6 +26,6 @@ const user = new Schema({
   },
 });
 
-const User = mongoose.model("user", user);
+const Race = mongoose.model("race", race);
 
-export default User;
+export default Race;

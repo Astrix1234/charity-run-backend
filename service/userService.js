@@ -18,7 +18,7 @@ const registerUser = async (userData) => {
     ...userData,
     avatarURL: gravatarUrl,
     verificationToken,
-    verify: false,
+    verified: false,
   });
 
   try {
@@ -39,13 +39,13 @@ const verifyUser = async (verificationToken) => {
     return null;
   }
   user.verificationToken = null;
-  user.verify = true;
+  user.verified = true;
   await user.save();
   return user;
 };
 
 const resendVerificationEmail = async (email) => {
-  const user = await User.findOne({ email, verify: false });
+  const user = await User.findOne({ email, verified: false });
   if (!user) {
     return null;
   }
@@ -71,8 +71,12 @@ const validateUser = async (email, password) => {
   return user;
 };
 
-const updateSubscription = async (userId, subscription) => {
-  return User.findByIdAndUpdate(userId, { subscription }, { new: true });
+const updateUserDetails = async (userId, language, name, surname, phone) => {
+  return User.findByIdAndUpdate(
+    userId,
+    { language, name, surname, phone },
+    { new: true }
+  );
 };
 
 const updateToken = async (userId, token) => {
@@ -97,7 +101,7 @@ export default {
   resendVerificationEmail,
   findUserByEmail,
   validateUser,
-  updateSubscription,
+  updateUserDetails,
   updateToken,
   logoutUser,
   getCurrent,

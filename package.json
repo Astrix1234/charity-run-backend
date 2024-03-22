@@ -47,6 +47,8 @@
   "imports": {
     "#ctrlContacts/*": "./controller/ctrlContacts/*",
     "#ctrlUser/*": "./controller/ctrlUser/*",
+    "#ctrlRace/*": "./controller/ctrlRace/*",
+    "#ctrlUserRace/*": "./controller/ctrlUserRace/*",
     "#service/*": "./service/*",
     "#config/*": "./config/*",
     "#validators/*": "./validators/*"

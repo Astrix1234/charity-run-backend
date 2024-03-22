@@ -10,13 +10,11 @@ export const validateFullUserQuery = (req, res, next) => {
       .required(),
     password: Joi.string().min(6).required(),
     language: Joi.string().valid("EN", "PL").default("PL"),
-    name: Joi.string().min(3).required(), //full name or username?
+    name: Joi.string().min(3).required(),
+    surname: Joi.string().min(2).required(),
     phone: Joi.string().min(9).required(),
-    shoe: Joi.number().min(34).max(49).required(),
-    shirt: Joi.string().valid("S", "M", "L", "XL", "XXL").required(),
-    shirtGender: Joi.string().valid("male", "female").required(), //for shirt sizes only, not user gender
   });
-  console.log("userQueryValidator, req.body:", req.body);
+
   const { error } = schema.validate(req.body);
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
