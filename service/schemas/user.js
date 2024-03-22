@@ -21,21 +21,13 @@ const user = new Schema({
     type: String,
     required: [true, "Name is required"],
   },
+  surname: {
+    type: String,
+    required: [true, "Surname is required"],
+  },
   phone: {
     type: String,
     required: [true, "Phone number is required"],
-  },
-  shoe: {
-    type: Number,
-    required: [true, "Shoe size is required"],
-  },
-  shirt: {
-    type: String,
-    required: [true, "Shirt size is required"],
-  },
-  shirtGender: {
-    type: String,
-    required: [true, "Shirt type is required"],
   },
   token: {
     type: String,
@@ -45,7 +37,7 @@ const user = new Schema({
     type: String,
     default: "",
   },
-  verify: {
+  verified: {
     type: Boolean,
     default: false,
   },
@@ -53,9 +45,9 @@ const user = new Schema({
     type: String,
     required: [
       function () {
-        return this.verify === false;
+        return this.verified === false;
       },
-      "Verify token is required",
+      "Verification token is required",
     ],
   },
 });

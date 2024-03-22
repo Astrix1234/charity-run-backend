@@ -11,17 +11,16 @@ export const getCurrentUser = async (req, res, next) => {
     if (!user) {
       return res.status(401).json({ message: "Not authorized" });
     }
-    res
-      .status(200)
-      .json({
-        email: user.email,
-        language: user.language,
-        name: user.name,
-        phone: user.phone,
-        shoe: user.shoe,
-        shirt: user.shirt,
-        shirtGender: user.shirtGender,
-      });
+    res.status(200).json({
+      email: user.email,
+      language: user.language,
+      name: user.name,
+      surname: user.surname,
+      phone: user.phone,
+      shoe: user.shoe,
+      shirt: user.shirt,
+      shirtGender: user.shirtGender,
+    });
   } catch (error) {
     console.error(error);
     next(error);

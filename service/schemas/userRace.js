@@ -1,19 +1,24 @@
-import mongoose from "mongoose";
+import mongoose, { SchemaTypes } from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const user = new Schema({
+const userRace = new Schema({
   raceID: {
+    type: String,
+    required: [true, "raceID not defined"],
+  },
+
+  userId: {
     type: SchemaTypes.ObjectId,
-    ref: "race",
-    required: [true, "RaceID not defined"],
+    ref: "user",
+    required: [true, "User not defined"],
   },
   userRaceID: {
     type: String,
     unique: true,
   },
   km: {
-    type: Number,
+    type: String,
     required: [true, "Km amount is required"],
   },
   time: {
@@ -31,8 +36,17 @@ const user = new Schema({
     type: Object,
     default: null,
   },
+  shoe: {
+    type: Number,
+  },
+  shirt: {
+    type: String,
+  },
+  shirtGender: {
+    type: String,
+  },
 });
 
-const User = mongoose.model("user", user);
+const UserRace = mongoose.model("userRace", userRace);
 
-export default User;
+export default UserRace;
