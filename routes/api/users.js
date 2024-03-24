@@ -44,8 +44,6 @@ routerUsers.patch(
 
 //--------------------
 
-//to add: get current user latest race data
-
 routerUsers.get(
   "/users/logout",
   passport.authenticate("jwt", { session: false }),
