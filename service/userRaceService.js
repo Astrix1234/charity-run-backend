@@ -8,6 +8,19 @@ const findLatestUserRace = async (userId) => {
   return UserRace.findOne({ userId }, { sort: { $natural: -1 } });
 };
 
+const getUserRacesOfCurrentUser = async ({ userId, raceID }) => {
+  const validRaceID = raceID
+    ? raceID
+    : (await raceService.findLatestRace()).raceID;
+  return UserRace.find({ userId, raceID: validRaceID });
+};
+const getAllPaidParticipants = async (raceID) => {
+  const validRaceID = raceID
+    ? raceID
+    : (await raceService.findLatestRace()).raceID;
+  return UserRace.find({ paid: true, raceID: validRaceID });
+};
+
 const updateUserRace = async ({
   userId,
   raceID,
@@ -66,4 +79,6 @@ export default {
   findUserRaceByID,
   findLatestUserRace,
   updateUserRace,
+  getUserRacesOfCurrentUser,
+  getAllPaidParticipants,
 };

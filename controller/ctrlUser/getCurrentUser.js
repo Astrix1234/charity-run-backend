@@ -1,4 +1,5 @@
 import userService from "#service/userService.js";
+import userRaceService from "#service/userRaceService.js";
 
 export const getCurrentUser = async (req, res, next) => {
   if (!req.user || !req.user._id) {
@@ -7,7 +8,12 @@ export const getCurrentUser = async (req, res, next) => {
 
   try {
     const userId = req.user._id;
+    const { raceID } = req.body;
     const user = await userService.getCurrent(userId);
+    const userRaces = await userRaceService.getUserRacesOfCurrentUser({
+      userId,
+      raceID,
+    });
     if (!user) {
       return res.status(401).json({ message: "Not authorized" });
     }
@@ -17,9 +23,7 @@ export const getCurrentUser = async (req, res, next) => {
       name: user.name,
       surname: user.surname,
       phone: user.phone,
-      shoe: user.shoe,
-      shirt: user.shirt,
-      shirtGender: user.shirtGender,
+      raceParticipants: userRaces,
     });
   } catch (error) {
     console.error(error);
