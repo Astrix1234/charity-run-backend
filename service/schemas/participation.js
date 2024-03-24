@@ -2,18 +2,23 @@ import mongoose, { SchemaTypes } from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const userRace = new Schema({
+const participation = new Schema({
   raceID: {
     type: String,
     required: [true, "raceID not defined"],
   },
-
   userId: {
     type: SchemaTypes.ObjectId,
     ref: "user",
     required: [true, "User not defined"],
   },
-  userRaceID: {
+  familyNr: {
+    type: Number,
+    required: [true, "FamilyNr is required"],
+    default: 0,
+  },
+
+  participationID: {
     type: String,
     unique: true,
   },
@@ -47,6 +52,6 @@ const userRace = new Schema({
   },
 });
 
-const UserRace = mongoose.model("userRace", userRace);
+const Participation = mongoose.model("participation", participation);
 
-export default UserRace;
+export default Participation;
