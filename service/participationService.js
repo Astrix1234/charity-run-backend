@@ -1,27 +1,27 @@
-import UserRace from "./schemas/userRace.js";
+import Participation from "./schemas/participation.js";
 import raceService from "#service/raceService.js";
 
-const findUserRaceByID = async (userRaceID) => {
-  return UserRace.findOne({ userRaceID });
+const findParticipationByID = async (participationID) => {
+  return Participation.findOne({ participationID });
 };
-const findLatestUserRace = async (userId) => {
-  return UserRace.findOne({ userId }, { sort: { $natural: -1 } });
+const findLatestParticipation = async (userId) => {
+  return Participation.findOne({ userId }, { sort: { $natural: -1 } });
 };
 
-const getUserRacesOfCurrentUser = async ({ userId, raceID }) => {
+const getParticipationsOfCurrentUser = async ({ userId, raceID }) => {
   const validRaceID = raceID
     ? raceID
     : (await raceService.findLatestRace()).raceID;
-  return UserRace.find({ userId, raceID: validRaceID });
+  return Participation.find({ userId, raceID: validRaceID });
 };
 const getAllPaidParticipants = async (raceID) => {
   const validRaceID = raceID
     ? raceID
     : (await raceService.findLatestRace()).raceID;
-  return UserRace.find({ paid: true, raceID: validRaceID });
+  return Participation.find({ paid: true, raceID: validRaceID });
 };
 
-const updateUserRace = async ({
+const updateParticipation = async ({
   userId,
   raceID,
   familyNr,
@@ -37,24 +37,24 @@ const updateUserRace = async ({
   const validRaceID = raceID
     ? raceID
     : (await raceService.findLatestRace()).raceID;
-  const { userRaceID } = (await UserRace.findOne({
+  const { participationID } = (await Participation.findOne({
     userId,
     raceID: validRaceID,
     familyNr,
   })) || {
-    userRaceID: false,
+    participationID: false,
   };
   const nextParticipantNumber = async () => {
-    const found = await UserRace.find({ raceID: validRaceID }).lean();
+    const found = await Participation.find({ raceID: validRaceID }).lean();
     return [...found].length + 1;
   };
-  const validURID = userRaceID
-    ? userRaceID
+  const validURID = participationID
+    ? participationID
     : `${validRaceID}|${await nextParticipantNumber()}`;
-  const userRace = {
+  const participation = {
     userId,
     raceID: validRaceID,
-    userRaceID: validURID,
+    participationID: validURID,
     familyNr,
     km,
     time,
@@ -65,9 +65,9 @@ const updateUserRace = async ({
     shirtGender,
     shoe,
   };
-  return await UserRace.findOneAndUpdate(
+  return await Participation.findOneAndUpdate(
     { userId, raceID: validRaceID, familyNr },
-    userRace,
+    participation,
     {
       new: true,
       upsert: true,
@@ -76,9 +76,9 @@ const updateUserRace = async ({
 };
 
 export default {
-  findUserRaceByID,
-  findLatestUserRace,
-  updateUserRace,
-  getUserRacesOfCurrentUser,
+  findParticipationByID,
+  findLatestParticipation,
+  updateParticipation,
+  getParticipationsOfCurrentUser,
   getAllPaidParticipants,
 };

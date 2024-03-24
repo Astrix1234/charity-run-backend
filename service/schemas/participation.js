@@ -2,7 +2,7 @@ import mongoose, { SchemaTypes } from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const userRace = new Schema({
+const participation = new Schema({
   raceID: {
     type: String,
     required: [true, "raceID not defined"],
@@ -18,7 +18,7 @@ const userRace = new Schema({
     default: 0,
   },
 
-  userRaceID: {
+  participationID: {
     type: String,
     unique: true,
   },
@@ -52,6 +52,6 @@ const userRace = new Schema({
   },
 });
 
-const UserRace = mongoose.model("userRace", userRace);
+const Participation = mongoose.model("participation", participation);
 
-export default UserRace;
+export default Participation;

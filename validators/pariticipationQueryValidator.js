@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const validateUserRaceQuery = (req, res, next) => {
+export const validateParticipationQuery = (req, res, next) => {
   const schema = Joi.object({
     // date: Joi.date().required(), //day of the race
     // location: Joi.string().required(), //city
@@ -13,7 +13,7 @@ export const validateUserRaceQuery = (req, res, next) => {
     shirt: Joi.string().valid("S", "M", "L", "XL", "XXL").required(),
     shirtGender: Joi.string().valid("male", "female").required(), //for shirt sizes only, not user gender
 
-    userRaceID: Joi.string(), //number to identify person at the race and give them shirt shoes etc (safe for rodo?)
+    participationID: Joi.string(), //number to identify person at the race and give them shirt shoes etc (safe for rodo?)
     time: Joi.time(), //how long user took to finish the race //updated after race
     status: Joi.string()
       .valid("signed up", "participated")

@@ -6,7 +6,7 @@ import { verifyUser } from "#ctrlUser/verifyUser.js";
 import { resendVerificationEmail } from "#ctrlUser/resendVerificationEmail.js";
 import { login } from "#ctrlUser/loginUser.js";
 import { updateUserDetails } from "#ctrlUser/updateUserDetails.js";
-import { updateUserRace } from "#ctrlUserRace/updateUserRace.js";
+import { updateParticipation } from "#ctrlParticipation/updateParticipation.js";
 import { logout } from "#ctrlUser/logoutUser.js";
 import { getCurrentUser } from "#ctrlUser/getCurrentUser.js";
 import { uploadAvatar, updateUserAvatar } from "#ctrlUser/updateUserAvatar.js";
@@ -39,7 +39,7 @@ routerUsers.patch(
   //to sign up for a specific race and pay for it
   "/users/participate",
   passport.authenticate("jwt", { session: false }),
-  updateUserRace
+  updateParticipation
 );
 
 //--------------------
