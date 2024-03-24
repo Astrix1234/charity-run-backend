@@ -11,6 +11,7 @@ const findLatestUserRace = async (userId) => {
 const updateUserRace = async ({
   userId,
   raceID,
+  familyNr,
   km,
   time,
   status,
@@ -23,14 +24,25 @@ const updateUserRace = async ({
   const validRaceID = raceID
     ? raceID
     : (await raceService.findLatestRace()).raceID;
-  const { userRaceID } = UserRace.findOne({ userId, raceID: validRaceID });
+  const { userRaceID } = (await UserRace.findOne({
+    userId,
+    raceID: validRaceID,
+    familyNr,
+  })) || {
+    userRaceID: false,
+  };
+  const nextParticipantNumber = async () => {
+    const found = await UserRace.find({ raceID: validRaceID }).lean();
+    return [...found].length + 1;
+  };
   const validURID = userRaceID
     ? userRaceID
-    : `${validRaceID}|${[UserRace.find({ raceID: validRaceID }).lean].length}`;
+    : `${validRaceID}|${await nextParticipantNumber()}`;
   const userRace = {
     userId,
     raceID: validRaceID,
     userRaceID: validURID,
+    familyNr,
     km,
     time,
     status,
@@ -41,7 +53,7 @@ const updateUserRace = async ({
     shoe,
   };
   return await UserRace.findOneAndUpdate(
-    { userId, raceID: validRaceID },
+    { userId, raceID: validRaceID, familyNr },
     userRace,
     {
       new: true,

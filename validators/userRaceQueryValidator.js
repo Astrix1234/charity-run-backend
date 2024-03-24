@@ -6,6 +6,8 @@ export const validateUserRaceQuery = (req, res, next) => {
     // location: Joi.string().required(), //city
     raceID: Joi.string().required(), //id of race - for filtering how many participants in specific race we have
     userId: Joi.string().required(),
+    familyNr: Joi.number().min(0).default(0), //ppl joining race on one acc, first person is nr 0
+
     km: Joi.string().required(), //distance of user choice
     shoe: Joi.number().min(34).max(49),
     shirt: Joi.string().valid("S", "M", "L", "XL", "XXL").required(),

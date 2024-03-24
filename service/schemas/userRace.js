@@ -7,12 +7,17 @@ const userRace = new Schema({
     type: String,
     required: [true, "raceID not defined"],
   },
-
   userId: {
     type: SchemaTypes.ObjectId,
     ref: "user",
     required: [true, "User not defined"],
   },
+  familyNr: {
+    type: Number,
+    required: [true, "FamilyNr is required"],
+    default: 0,
+  },
+
   userRaceID: {
     type: String,
     unique: true,
