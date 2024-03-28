@@ -1,4 +1,8 @@
 node_modules/
 .env
+notes.env
+p24.env
+p24register.env
+p24verify.env
 .idea
 .vscode
