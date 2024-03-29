@@ -1,6 +1,7 @@
 import express from "express";
 import passport from "passport";
 
+import { refreshToken } from "#ctrlUser/refreshToken.js";
 import { register } from "#ctrlUser/registerUser.js";
 import { verifyUser } from "#ctrlUser/verifyUser.js";
 import { resendVerificationEmail } from "#ctrlUser/resendVerificationEmail.js";
@@ -14,6 +15,8 @@ import { validateFullUserQuery } from "#validators/userFullValidator.js";
 import { validateLoginUserQuery } from "#validators/userLoginValidator.js";
 
 const routerUsers = express.Router();
+
+routerUsers.use(refreshToken);
 
 routerUsers.post("/users/signup", validateFullUserQuery, register);
 

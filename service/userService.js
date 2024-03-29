@@ -79,8 +79,12 @@ const updateUserDetails = async (userId, language, name, surname, phone) => {
   );
 };
 
-const updateToken = async (userId, token) => {
-  return User.findByIdAndUpdate(userId, { token }, { new: true });
+const updateToken = async (userId, token, refreshToken) => {
+  return User.findByIdAndUpdate(userId, { token, refreshToken }, { new: true });
+};
+
+const getUserByRefreshToken = async (refreshToken) => {
+  return User.findOne({ refreshToken });
 };
 
 const logoutUser = async (userId) => {
@@ -103,6 +107,7 @@ export default {
   validateUser,
   updateUserDetails,
   updateToken,
+  getUserByRefreshToken,
   logoutUser,
   getCurrent,
   updateAvatar,
