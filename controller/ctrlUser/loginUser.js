@@ -19,6 +19,10 @@ export const login = async (req, res, next) => {
     const token = jwt.sign({ id: user._id }, process.env.SECRET, {
       expiresIn: "1h",
     });
+
+    // Ustawianie tokena JWT jako pliku cookie
+    res.cookie("jwt", token, { httpOnly: true, maxAge: 3600000 }); // MaxAge ustawia czas życia cookie w milisekundach
+
     await userService.updateToken(user._id, token);
 
     res.json({

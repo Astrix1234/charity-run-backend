@@ -7,7 +7,11 @@ export const logout = async (req, res, next) => {
 
   const userId = req.user._id;
   try {
+    // Czyszczenie pliku cookie "jwt"
+    res.clearCookie("jwt");
+
     await userService.logoutUser(userId);
+
     res.status(204).send();
   } catch (error) {
     console.error(error);
