@@ -12,9 +12,13 @@ export const updateParticipation = async (req, res, next) => {
     shirt,
     shirtGender,
     shoe,
+    name,
+    surname,
+    avatarURL,
   } = req.body;
   try {
     const userId = req.user._id;
+    const userMail = req.user.email;
     const updatedParticipation = await participationService.updateParticipation(
       {
         userId,
@@ -28,6 +32,10 @@ export const updateParticipation = async (req, res, next) => {
         shirt,
         shirtGender,
         shoe,
+        name,
+        mail: userMail,
+        surname,
+        avatarURL,
       }
     );
 
@@ -49,6 +57,10 @@ export const updateParticipation = async (req, res, next) => {
         shirt: updatedParticipation.shirt,
         shirtGender: updatedParticipation.shirtGender,
         shoe: updatedParticipation.shoe,
+        name: updatedParticipation.name,
+        mail: updatedParticipation.mail,
+        surname: updatedParticipation.surname,
+        avatarURL: updatedParticipation.avatarURL,
       },
     });
   } catch (error) {

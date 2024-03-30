@@ -12,6 +12,9 @@ const participation = new Schema({
     ref: "user",
     required: [true, "User not defined"],
   },
+  mail: {
+    type: String,
+  },
   familyNr: {
     type: Number,
     required: [true, "FamilyNr is required"],
@@ -49,6 +52,22 @@ const participation = new Schema({
   },
   shirtGender: {
     type: String,
+  },
+  name: {
+    type: String,
+    required: [true, "Name is required"],
+  },
+  surname: {
+    type: String,
+    required: [true, "Surname is required"],
+  },
+  avatarURL: {
+    type: String,
+    default: "",
+  },
+  phone: {
+    type: String,
+    required: [true, "Phone number is required"],
   },
 });
 
