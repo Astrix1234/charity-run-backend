@@ -4,7 +4,7 @@ export const logout = async (req, res, next) => {
     res.clearCookie("jwt");
     res.clearCookie("refreshToken");
 
-    res.status(204).json();
+    res.status(204).send();
   } catch (error) {
     console.error(error);
     next(error);
