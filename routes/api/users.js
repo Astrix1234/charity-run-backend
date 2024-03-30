@@ -1,7 +1,6 @@
 import express from "express";
 import passport from "passport";
 
-import { refreshToken } from "#ctrlUser/refreshToken.js";
 import { register } from "#ctrlUser/registerUser.js";
 import { verifyUser } from "#ctrlUser/verifyUser.js";
 import { resendVerificationEmail } from "#ctrlUser/resendVerificationEmail.js";
@@ -13,10 +12,9 @@ import { getCurrentUser } from "#ctrlUser/getCurrentUser.js";
 import { uploadAvatar, updateUserAvatar } from "#ctrlUser/updateUserAvatar.js";
 import { validateFullUserQuery } from "#validators/userFullValidator.js";
 import { validateLoginUserQuery } from "#validators/userLoginValidator.js";
+import refreshTokenMiddleware from "#middleware/refreshTokenMiddleware.js";
 
 const routerUsers = express.Router();
-
-routerUsers.use(refreshToken);
 
 routerUsers.post("/users/signup", validateFullUserQuery, register);
 
@@ -28,19 +26,28 @@ routerUsers.post("/users/login", validateLoginUserQuery, login);
 
 routerUsers.get(
   "/users/current",
+  refreshTokenMiddleware,
   passport.authenticate("jwt", { session: false }),
   getCurrentUser
 );
 
 routerUsers.patch(
   "/users",
+  refreshTokenMiddleware,
   passport.authenticate("jwt", { session: false }),
   updateUserDetails
 );
 
-routerUsers.patch(
-  //to sign up for a specific race and pay for it
+routerUsers.post(
   "/users/participate",
+  refreshTokenMiddleware,
+  passport.authenticate("jwt", { session: false }),
+  updateParticipation
+);
+
+routerUsers.patch(
+  "/users/participate",
+  refreshTokenMiddleware,
   passport.authenticate("jwt", { session: false }),
   updateParticipation
 );
@@ -49,12 +56,14 @@ routerUsers.patch(
 
 routerUsers.get(
   "/users/logout",
+  refreshTokenMiddleware,
   passport.authenticate("jwt", { session: false }),
   logout
 );
 
 routerUsers.patch(
   "/users/avatars",
+  refreshTokenMiddleware,
   passport.authenticate("jwt", { session: false }),
   uploadAvatar,
   updateUserAvatar

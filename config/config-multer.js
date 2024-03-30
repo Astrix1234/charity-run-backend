@@ -23,11 +23,13 @@ const setupFolder = async (path) => {
 };
 
 export const initUploadFolders = async () => {
+  await setupFolder(publicDir);
   await setupFolder(tempDir);
   await setupFolder(storeImageDir);
 };
 
 const tempDir = path.join(process.cwd(), "tmp");
+const publicDir = path.join(process.cwd(), "public");
 const storeImageDir = path.join(process.cwd(), "public/avatars");
 
 const storage = multer.diskStorage({

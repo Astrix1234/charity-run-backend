@@ -4,7 +4,6 @@ import passport from "passport";
 import path from "path";
 import { fileURLToPath } from "url";
 
-// import router from "./routes/api/contacts.js";
 import routerUsers from "./routes/api/users.js";
 
 import "./config/config-passport.js";
@@ -21,7 +20,12 @@ const app = express();
 
 app.use(express.json());
 
-app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:5173",
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 app.use(cookieParser());
 

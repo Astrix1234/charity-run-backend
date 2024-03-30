@@ -52,6 +52,7 @@
     "#ctrlParticipation/*": "./controller/ctrlParticipation/*",
     "#service/*": "./service/*",
     "#config/*": "./config/*",
-    "#validators/*": "./validators/*"
+    "#validators/*": "./validators/*",
+    "#middleware/*": "./middleware/*"
   }
 }
