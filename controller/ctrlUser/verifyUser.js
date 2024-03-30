@@ -11,12 +11,17 @@ import userService from "#service/userService.js";
 // };
 
 export const verifyUser = async (req, res) => {
-  const verifiedUser = await userService.verifyUser(
-    req.params.verificationToken
-  );
-  if (!verifiedUser) {
+  try {
+    const verifiedUser = await userService.verifyUser(
+      req.params.verificationToken
+    );
+    if (verifiedUser) {
+      res.redirect(`${process.env.FRONTEND_URL}/login?verified=true`);
+    } else {
+      return res.redirect(`${process.env.FRONTEND_URL}/login?verified=false`);
+    }
+  } catch (error) {
+    console.error("Verification error:", error);
     return res.redirect(`${process.env.FRONTEND_URL}/login?verified=false`);
   }
-
-  res.redirect(`${process.env.FRONTEND_URL}/login?verified=true`);
 };

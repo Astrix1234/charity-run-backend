@@ -80,7 +80,7 @@ const updateUserDetails = async (userId, language, name, surname, phone) => {
 };
 
 const getCurrent = async (userId) => {
-  return User.findById(userId, "-password -token");
+  return User.findById(userId);
 };
 
 const updateAvatar = async (userId, avatarURL) => {
