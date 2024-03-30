@@ -10,7 +10,7 @@ export const validateFullUserQuery = (req, res, next) => {
       .required(),
     password: Joi.string().min(6).required(),
     language: Joi.string().valid("EN", "PL").default("PL"),
-    name: Joi.string().min(3).required(),
+    name: Joi.string().min(2).required(),
     surname: Joi.string().min(2).required(),
     phone: Joi.string().min(9).required(),
   });
