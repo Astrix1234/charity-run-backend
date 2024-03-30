@@ -20,6 +20,12 @@ const getAllPaidParticipants = async (raceID) => {
     : (await raceService.findLatestRace()).raceID;
   return Participation.find({ paid: true, raceID: validRaceID });
 };
+const getAllParticipants = async (raceID) => {
+  const validRaceID = raceID
+    ? raceID
+    : (await raceService.findLatestRace()).raceID;
+  return Participation.find({raceID: validRaceID });
+};
 
 const updateParticipation = async ({
   userId,
@@ -91,4 +97,5 @@ export default {
   updateParticipation,
   getParticipationsOfCurrentUser,
   getAllPaidParticipants,
+  getAllParticipants,
 };
