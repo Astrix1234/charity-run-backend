@@ -10,6 +10,7 @@ import "./config/config-passport.js";
 
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import routerRace from "./routes/api/race.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -34,6 +35,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // app.use("/api", router);
 app.use("/api", routerUsers);
+app.use("/api", routerRace);
 
 app.use((_, res, __) => {
   res.status(404).json({

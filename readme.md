@@ -31,7 +31,7 @@ Once the server is running, the API is available at http://localhost:[PORT]/api/
   - <a href="https://monosnap.com/file/iIZuvuS6nwGMDPl1ryMV6V5cZPp4Z7" target="_blank">Screenshot showing the response from the localhost server for email verification in a browser using the verification token<a>
 - POST /api/users/login - logs in a user.
   - <a href="https://monosnap.com/file/1QearrUEnnz8tTMYbPgq9fX4LEPWEi" target="_blank">Screenshot: User Login in Postman<a>
-- PATCH `/api/users/participate` `auth(<bearer token>)` `body({ raceID, familyNr, km, time, status, paid, payment, shirt, shirtGender, shoe })` Add/update participation for specific race under current user. FamilyNr indicates which person to register/update for this race within same account starting with FamilyNr=0 as default.
+- PATCH `/api/users/participate` `auth(<bearer token>)` `body({ raceID, familyNr, km, time, status, paid, payment, shirt, shirtGender })` Add/update participation for specific race under current user. FamilyNr indicates which person to register/update for this race within same account starting with FamilyNr=0 as default.
 - GET /api/users/logout - logs out a user.
   - <a href="https://monosnap.com/file/wzx7ReQLMecv0PcVfw8LRyKPxx2kIW" target="_blank">Screenshot: User Logout in Postman<a>
 - GET /api/users/current - retrieves data of the currently logged-in user.

@@ -44,9 +44,6 @@ const participation = new Schema({
     type: Object,
     default: null,
   },
-  shoe: {
-    type: Number,
-  },
   shirt: {
     type: String,
   },
@@ -60,10 +57,6 @@ const participation = new Schema({
   surname: {
     type: String,
     required: [true, "Surname is required"],
-  },
-  avatarURL: {
-    type: String,
-    default: "",
   },
   phone: {
     type: String,

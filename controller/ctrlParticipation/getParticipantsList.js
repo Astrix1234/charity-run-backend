@@ -1,9 +1,9 @@
-import participationService from "#service/participationService";
+import participationService from "#service/participationService.js";
 
 export const getParticipantsList = async (req, res, next) => {
   const { raceID } = req.body;
   try {
-    const participations = await participationService.getAllPaidParticipants(
+    const participations = await participationService.getAllParticipants(
       raceID
     );
     if (!raceID) {

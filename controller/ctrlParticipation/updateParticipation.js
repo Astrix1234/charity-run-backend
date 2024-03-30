@@ -11,10 +11,8 @@ export const updateParticipation = async (req, res, next) => {
     payment,
     shirt,
     shirtGender,
-    shoe,
     name,
     surname,
-    avatarURL,
   } = req.body;
   try {
     const userId = req.user._id;
@@ -31,11 +29,9 @@ export const updateParticipation = async (req, res, next) => {
         payment,
         shirt,
         shirtGender,
-        shoe,
         name,
         mail: userMail,
         surname,
-        avatarURL,
       }
     );
 
@@ -56,11 +52,9 @@ export const updateParticipation = async (req, res, next) => {
         payment: updatedParticipation.payment,
         shirt: updatedParticipation.shirt,
         shirtGender: updatedParticipation.shirtGender,
-        shoe: updatedParticipation.shoe,
         name: updatedParticipation.name,
         mail: updatedParticipation.mail,
         surname: updatedParticipation.surname,
-        avatarURL: updatedParticipation.avatarURL,
       },
     });
   } catch (error) {

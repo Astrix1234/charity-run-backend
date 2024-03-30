@@ -20,6 +20,12 @@ const getAllPaidParticipants = async (raceID) => {
     : (await raceService.findLatestRace()).raceID;
   return Participation.find({ paid: true, raceID: validRaceID });
 };
+const getAllParticipants = async (raceID) => {
+  const validRaceID = raceID
+    ? raceID
+    : (await raceService.findLatestRace()).raceID;
+  return Participation.find({raceID: validRaceID });
+};
 
 const updateParticipation = async ({
   userId,
@@ -32,11 +38,9 @@ const updateParticipation = async ({
   payment,
   shirt,
   shirtGender,
-  shoe,
   name,
   surname,
   mail,
-  avatarURL,
   phone,
 }) => {
   const validRaceID = raceID
@@ -68,11 +72,9 @@ const updateParticipation = async ({
     payment,
     shirt,
     shirtGender,
-    shoe,
     name,
     surname,
     mail,
-    avatarURL,
     phone,
   };
   return await Participation.findOneAndUpdate(
@@ -91,4 +93,5 @@ export default {
   updateParticipation,
   getParticipationsOfCurrentUser,
   getAllPaidParticipants,
+  getAllParticipants,
 };

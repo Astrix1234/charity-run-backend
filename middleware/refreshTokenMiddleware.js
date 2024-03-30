@@ -8,9 +8,9 @@ const refreshTokenMiddleware = async (req, res, next) => {
   }
 
   try {
-    jwt.verify(refreshToken, process.env.SECRET);
+    const decodedToken = jwt.verify(refreshToken, process.env.SECRET);
 
-    const user = await userService.getUserByRefreshToken(refreshToken);
+    const user = await userService.getCurrent(decodedToken.id);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
