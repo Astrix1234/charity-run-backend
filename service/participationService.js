@@ -38,11 +38,9 @@ const updateParticipation = async ({
   payment,
   shirt,
   shirtGender,
-  shoe,
   name,
   surname,
   mail,
-  avatarURL,
   phone,
 }) => {
   const validRaceID = raceID
@@ -74,11 +72,9 @@ const updateParticipation = async ({
     payment,
     shirt,
     shirtGender,
-    shoe,
     name,
     surname,
     mail,
-    avatarURL,
     phone,
   };
   return await Participation.findOneAndUpdate(
