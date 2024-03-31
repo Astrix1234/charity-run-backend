@@ -13,6 +13,7 @@ import { uploadAvatar, updateUserAvatar } from "#ctrlUser/updateUserAvatar.js";
 import { validateFullUserQuery } from "#validators/userFullValidator.js";
 import { validateLoginUserQuery } from "#validators/userLoginValidator.js";
 import refreshTokenMiddleware from "#middleware/refreshTokenMiddleware.js";
+import { createParticipant } from "#ctrlParticipation/createParticipant.js";
 
 const routerUsers = express.Router();
 
@@ -42,7 +43,7 @@ routerUsers.post(
   "/users/participate",
   refreshTokenMiddleware,
   passport.authenticate("jwt", { session: false }),
-  updateParticipation
+  createParticipant
 );
 
 routerUsers.patch(
