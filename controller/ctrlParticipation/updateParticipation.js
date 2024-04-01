@@ -13,6 +13,7 @@ export const updateParticipation = async (req, res, next) => {
     shirtGender,
     name,
     surname,
+    phone,
   } = req.body;
   try {
     const userId = req.user._id;
@@ -32,6 +33,7 @@ export const updateParticipation = async (req, res, next) => {
         name,
         mail: userMail,
         surname,
+        phone,
       }
     );
 
@@ -43,8 +45,8 @@ export const updateParticipation = async (req, res, next) => {
       participation: {
         userId,
         raceID: updatedParticipation.raceID,
-        participationID: updatedParticipation.participationID,
-        familyNr: updatedParticipation.familyNr,
+        // participationID: updatedParticipation.participationID,
+        // familyNr: updatedParticipation.familyNr,
         km: updatedParticipation.km,
         time: updatedParticipation.time,
         status: updatedParticipation.status,

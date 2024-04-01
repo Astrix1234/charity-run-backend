@@ -15,16 +15,16 @@ const participation = new Schema({
   mail: {
     type: String,
   },
-  familyNr: {
-    type: Number,
-    required: [true, "FamilyNr is required"],
-    default: 0,
-  },
+  // familyNr: {
+  //   type: Number,
+  //   required: [true, "FamilyNr is required"],
+  //   default: 0,
+  // },
 
-  participationID: {
-    type: String,
-    unique: true,
-  },
+  // participationID: {
+  //   type: String,
+  //   unique: true,
+  // },
   km: {
     type: String,
     required: [true, "Km amount is required"],

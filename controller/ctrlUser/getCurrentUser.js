@@ -15,6 +15,10 @@ export const getCurrentUser = async (req, res, next) => {
         userId,
         raceID,
       });
+    console.log(
+      "participants12345",
+      participations.map((p) => p._id)
+    );
     if (!user) {
       return res.status(401).json({ message: "Not authorized" });
     }
