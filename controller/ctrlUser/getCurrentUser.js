@@ -15,10 +15,7 @@ export const getCurrentUser = async (req, res, next) => {
         userId,
         raceID,
       });
-    console.log(
-      "participants12345",
-      participations.map((p) => p._id)
-    );
+
     if (!user) {
       return res.status(401).json({ message: "Not authorized" });
     }
@@ -28,7 +25,7 @@ export const getCurrentUser = async (req, res, next) => {
       name: user.name,
       surname: user.surname,
       phone: user.phone,
-      raceParticipants: participations,
+      raceParticipants: participations.map((participant) => participant._id),
     });
   } catch (error) {
     console.error(error);
