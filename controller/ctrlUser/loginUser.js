@@ -30,9 +30,6 @@ export const login = async (req, res, next) => {
     const token = generateAccessToken(user._id);
     const refreshToken = generateRefreshToken(user._id);
 
-    // Zapisanie refresh tokenu w bazie danych
-    await userService.updateToken(user._id, token, refreshToken);
-
     // Ustawianie tokena JWT jako pliku cookie
     res.cookie("jwt", token, {
       httpOnly: true,
@@ -43,7 +40,7 @@ export const login = async (req, res, next) => {
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 dni
+      maxAge: 1 * 24 * 60 * 60 * 1000, // 30 dni
       secure: true,
       sameSite: "strict",
     });

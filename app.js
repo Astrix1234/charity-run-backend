@@ -4,13 +4,13 @@ import passport from "passport";
 import path from "path";
 import { fileURLToPath } from "url";
 
-// import router from "./routes/api/contacts.js";
 import routerUsers from "./routes/api/users.js";
 
 import "./config/config-passport.js";
 
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import routerRace from "./routes/api/race.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -20,7 +20,12 @@ const app = express();
 
 app.use(express.json());
 
-app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:5173",
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 app.use(cookieParser());
 
@@ -30,6 +35,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // app.use("/api", router);
 app.use("/api", routerUsers);
+app.use("/api", routerRace);
 
 app.use((_, res, __) => {
   res.status(404).json({

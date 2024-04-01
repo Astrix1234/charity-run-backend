@@ -1,4 +1,4 @@
-import userService from "#service/userService.js";
+import participationService from "#service/participationService";
 
 export const getParticipationsOfCurrentUser = async (req, res, next) => {
   if (!req.user || !req.user._id) {

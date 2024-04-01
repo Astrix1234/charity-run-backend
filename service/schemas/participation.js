@@ -12,16 +12,19 @@ const participation = new Schema({
     ref: "user",
     required: [true, "User not defined"],
   },
-  familyNr: {
-    type: Number,
-    required: [true, "FamilyNr is required"],
-    default: 0,
-  },
-
-  participationID: {
+  mail: {
     type: String,
-    unique: true,
   },
+  // familyNr: {
+  //   type: Number,
+  //   required: [true, "FamilyNr is required"],
+  //   default: 0,
+  // },
+
+  // participationID: {
+  //   type: String,
+  //   unique: true,
+  // },
   km: {
     type: String,
     required: [true, "Km amount is required"],
@@ -41,14 +44,23 @@ const participation = new Schema({
     type: Object,
     default: null,
   },
-  shoe: {
-    type: Number,
-  },
   shirt: {
     type: String,
   },
   shirtGender: {
     type: String,
+  },
+  name: {
+    type: String,
+    required: [true, "Name is required"],
+  },
+  surname: {
+    type: String,
+    required: [true, "Surname is required"],
+  },
+  phone: {
+    type: String,
+    required: [true, "Phone number is required"],
   },
 });
 

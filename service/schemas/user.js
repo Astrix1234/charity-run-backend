@@ -29,14 +29,6 @@ const user = new Schema({
     type: String,
     required: [true, "Phone number is required"],
   },
-  token: {
-    type: String,
-    default: null,
-  },
-  refreshToken: {
-    type: String,
-    default: null,
-  },
   avatarURL: {
     type: String,
     default: "",

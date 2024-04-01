@@ -1,16 +1,8 @@
-import userService from "#service/userService.js";
-
 export const logout = async (req, res, next) => {
-  if (!req.user || !req.user._id) {
-    return res.status(401).json({ message: "Not authorized" });
-  }
-
-  const userId = req.user._id;
   try {
     // Czyszczenie pliku cookie "jwt"
     res.clearCookie("jwt");
-
-    await userService.logoutUser(userId);
+    res.clearCookie("refreshToken");
 
     res.status(204).send();
   } catch (error) {
