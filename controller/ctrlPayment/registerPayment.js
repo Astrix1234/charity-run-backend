@@ -17,9 +17,10 @@ export const register = async (req, res, next) => {
     });
     res.status(201).json({
       payment: {
-        email: payment.email,
-        language: payment.language,
-        avatarURL: payment.avatarURL,
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // email: payment.email,
+        // language: payment.language,
+        // avatarURL: payment.avatarURL,
       },
     });
   } catch (error) {

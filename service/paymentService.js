@@ -31,7 +31,8 @@ const registerPayment = async ({
   });
 
   try {
-    await newPayment.save();
+    // await newPayment.save();
+    console.log("---------------newPayment----------", newPayment);
   } catch (error) {
     console.error("Error while registering payment:", error);
     throw error;
