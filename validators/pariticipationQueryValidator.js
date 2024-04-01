@@ -8,21 +8,8 @@ export const validateParticipationQuery = (req, res, next) => {
     userId: Joi.string().required(),
 
     km: Joi.string().required(), //distance of user choice
-    shirt: Joi.string()
-      .valid(
-        "rozmiar 36 (S)",
-        "rozmiar 38 (M)",
-        "rozmiar 40 (L)",
-        "rozmiar 42 (XL)",
-        "rozmiar S",
-        "rozmiar M",
-        "rozmiar L",
-        "rozmiar XL",
-        "rozmiar XXL",
-        Joi.number().integer().min(90).max(200)
-      )
-      .required(),
-    shirtGender: Joi.string().valid("Damska", "Męska", "Dziecięca").required(), //for shirt sizes only, not user gender
+    shirt: Joi.string().required(),
+    shirtGender: Joi.string().required(), //for shirt sizes only, not user gender
 
     time: Joi.time(), //how long user took to finish the race //updated after race
     status: Joi.string()
