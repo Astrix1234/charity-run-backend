@@ -3,7 +3,6 @@ import participationService from "#service/participationService.js";
 export const createParticipant = async (req, res, next) => {
   const {
     raceID,
-    // familyNr,
     km,
     time,
     status,
@@ -22,7 +21,6 @@ export const createParticipant = async (req, res, next) => {
       {
         userId,
         raceID,
-        // familyNr: familyNr ? familyNr : 0,
         km,
         time,
         status,
@@ -45,8 +43,6 @@ export const createParticipant = async (req, res, next) => {
       participation: {
         userId,
         raceID: createdParticipation.raceID,
-        // participationID: createdParticipation.participationID,
-        // familyNr: createdParticipation.familyNr,
         km: createdParticipation.km,
         time: createdParticipation.time,
         status: createdParticipation.status,

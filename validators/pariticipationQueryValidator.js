@@ -8,8 +8,8 @@ export const validateParticipationQuery = (req, res, next) => {
     userId: Joi.string().required(),
 
     km: Joi.string().required(), //distance of user choice
-    shirt: Joi.string().valid("S", "M", "L", "XL", "XXL").required(),
-    shirtGender: Joi.string().valid("male", "female").required(), //for shirt sizes only, not user gender
+    shirt: Joi.string().required(),
+    shirtGender: Joi.string().required(), //for shirt sizes only, not user gender
 
     time: Joi.time(), //how long user took to finish the race //updated after race
     status: Joi.string()

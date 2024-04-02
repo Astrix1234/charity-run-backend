@@ -14,6 +14,7 @@ import { validateFullUserQuery } from "#validators/userFullValidator.js";
 import { validateLoginUserQuery } from "#validators/userLoginValidator.js";
 import refreshTokenMiddleware from "#middleware/refreshTokenMiddleware.js";
 import { createParticipant } from "#ctrlParticipation/createParticipant.js";
+import { getParticipant } from "#ctrlParticipation/getParticipant.js";
 
 const routerUsers = express.Router();
 
@@ -51,6 +52,13 @@ routerUsers.patch(
   refreshTokenMiddleware,
   passport.authenticate("jwt", { session: false }),
   updateParticipation
+);
+
+routerUsers.get(
+  "/users/participant",
+  refreshTokenMiddleware,
+  passport.authenticate("jwt", { session: false }),
+  getParticipant
 );
 
 //--------------------
