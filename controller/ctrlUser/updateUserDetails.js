@@ -1,15 +1,26 @@
 import userService from "#service/userService.js";
+import bcrypt from "bcryptjs";
 
 export const updateUserDetails = async (req, res, next) => {
-  const { language, name, surname, phone } = req.body;
+  const { language, name, surname, password, oldPassword } = req.body;
   try {
     const userId = req.user._id;
+    let newPassword;
+
+    if (password && oldPassword) {
+      const userPassword = req.user.password;
+      const isMatch = await bcrypt.compare(oldPassword, userPassword);
+      if (!isMatch) {
+        return res.status(400).json({ message: "Invalid password" });
+      }
+      newPassword = await bcrypt.hash(password, 10);
+    }
     const updatedUser = await userService.updateUserDetails(
       userId,
       language,
       name,
       surname,
-      phone
+      newPassword
     );
 
     if (!updatedUser) {
@@ -21,7 +32,7 @@ export const updateUserDetails = async (req, res, next) => {
         language: updatedUser.language,
         name: updatedUser.name,
         surname: updatedUser.surname,
-        phone: updatedUser.phone,
+        password: updatedUser.password,
       },
     });
   } catch (error) {
