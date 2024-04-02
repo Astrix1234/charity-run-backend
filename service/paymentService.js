@@ -1,7 +1,28 @@
-import Payment from "./schemas/payment.js";
+import axios from "axios";
 // import sendPaymentEmail from "#config/config-nodemailer.js";
 import { nanoid } from "nanoid";
-import md5 from "md5";
+import crypto from "crypto";
+
+export const getPaymentToken = async (payment) => {
+  try {
+    axios.defaults.baseURL = process.env.P24_URL;
+    const response = await axios.post("/transaction/register", payment, {
+      auth: {
+        username: process.env.P24_USER,
+        password: process.env.P24_PASS,
+      },
+    });
+    // console.log(
+    //   "---------------getPaymentToken --response.data--------------------",
+    //   response.data
+    // );
+    return response.data;
+  } catch (err) {
+    console.error("Error registering payment:", err);
+    console.error("Error response:", err.response);
+    throw err;
+  }
+};
 
 const registerPayment = async ({
   amount,
@@ -11,36 +32,51 @@ const registerPayment = async ({
   language,
   email,
 }) => {
-  const merchantId = 155512;
+  const merchantId = Number(process.env.P24_ID);
   const session = nanoid();
-  const checkSum = md5(
-    `${session}|${merchantId}|${amount}|${currency}|${process.env.P24_CRC}`
-  );
-  const newPayment = new Payment({
-    amount,
-    currency,
-    description,
-    country,
-    language,
-    email,
+  const checkSum = `{"sessionId":"${session}","merchantId":${merchantId},"amount":${amount},"currency":"${currency}","crc":"${process.env.P24_CRC}"}`;
+
+  //   { "merchantId": 155512,
+  //   "posId": 155512,
+  //   "urlReturn": "http://www.myurl.pl",
+  //         "amount": 5000,
+  //         "currency": "PLN",
+  //         "language": "PL",
+  //         "country": "Poland",
+  //         "description": "test payment 5000",
+  //         "email": "Password123#@email.com",
+  //         "sessionId": "ol5PYditTyLVkE8qAxwGi",
+  //         "sign": "dc63458293d93bf0ade127bb2d426fd6605663706bda97c3b4d94b8467ebbdba9e995803f91199a1cab8361311f149cc"
+  // }
+
+  const tokenReq = {
     merchantId,
     posId: merchantId,
+    amount,
+    currency,
+    language,
+    country,
+    description,
+    urlReturn: "http://www.myurl.pl",
+    email,
     sessionId: session,
-    channel: 1,
-    sign: checkSum,
-  });
+    sign: crypto.createHash("sha384").update(checkSum).digest("hex"),
+  };
 
   try {
+    // !!!!!!!!!!!!!!
+    // http request to sandbox
     // await newPayment.save();
-    console.log("---------------newPayment----------", newPayment);
+    const paymentToken = await getPaymentToken(tokenReq);
+    console.log("---------------paymentToken----------", await paymentToken);
+    // console.log("---------------newPayment----------", await  newPayment);
+    return paymentToken;
   } catch (error) {
     console.error("Error while registering payment:", error);
     throw error;
   }
 
   // await sendPaymentEmail(newPayment);
-
-  return newPayment;
 };
 
 export default {

@@ -4,7 +4,7 @@ import { registerPayment } from "#ctrlPayment/registerPayment.js";
 
 const routerPayment = express.Router();
 
-routerPayment.get(
+routerPayment.post(
   "/payment/register",
   passport.authenticate("jwt", { session: false }),
   registerPayment
