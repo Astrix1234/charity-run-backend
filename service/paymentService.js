@@ -1,5 +1,4 @@
 import axios from "axios";
-// import sendPaymentEmail from "#config/config-nodemailer.js";
 import { nanoid } from "nanoid";
 import crypto from "crypto";
 
@@ -12,10 +11,6 @@ export const getPaymentToken = async (payment) => {
         password: process.env.P24_PASS,
       },
     });
-    // console.log(
-    //   "---------------getPaymentToken --response.data--------------------",
-    //   response.data
-    // );
     return response.data;
   } catch (err) {
     console.error("Error registering payment:", err);
@@ -65,18 +60,14 @@ const registerPayment = async ({
 
   try {
     // !!!!!!!!!!!!!!
-    // http request to sandbox
-    // await newPayment.save();
     const paymentToken = await getPaymentToken(tokenReq);
-    console.log("---------------paymentToken----------", await paymentToken);
-    // console.log("---------------newPayment----------", await  newPayment);
-    return paymentToken;
+    // i have token, now i need to get p24 link
+    const transactionLink = `https://secure.przelewy24.pl/trnRequest/${paymentToken.data.token}`;
+    return transactionLink;
   } catch (error) {
     console.error("Error while registering payment:", error);
     throw error;
   }
-
-  // await sendPaymentEmail(newPayment);
 };
 
 export default {

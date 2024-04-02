@@ -11,19 +11,14 @@ export const registerPayment = async (req, res, next) => {
     const data = await paymentService.registerPayment({
       amount,
       currency: currency || "PLN",
-      description: description || "Hematobieg registration",
+      description: `Hematobieg registration ${description || ""}`,
       email: user.email,
       country: country || "PL",
       language: language || "pl",
+      urlReturn: process.env.FRONTEND_URL,
     });
     res.status(201).json({
-      ...data,
-      // payment: {
-      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      // email: payment.email,
-      // language: payment.language,
-      // avatarURL: payment.avatarURL,
-      // },
+      data,
     });
   } catch (error) {
     console.error(error);
