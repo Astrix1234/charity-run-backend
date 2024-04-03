@@ -9,12 +9,14 @@ import { updateUserDetails } from "#ctrlUser/updateUserDetails.js";
 import { updateParticipation } from "#ctrlParticipation/updateParticipation.js";
 import { logout } from "#ctrlUser/logoutUser.js";
 import { getCurrentUser } from "#ctrlUser/getCurrentUser.js";
-import { uploadAvatar, updateUserAvatar } from "#ctrlUser/updateUserAvatar.js";
+import { updateUserAvatar } from "#ctrlUser/updateUserAvatar.js";
 import { validateFullUserQuery } from "#validators/userFullValidator.js";
 import { validateLoginUserQuery } from "#validators/userLoginValidator.js";
 import refreshTokenMiddleware from "#middleware/refreshTokenMiddleware.js";
 import { createParticipant } from "#ctrlParticipation/createParticipant.js";
 import { getParticipant } from "#ctrlParticipation/getParticipant.js";
+import { resetUserPassword } from "#ctrlUser/resetUserPassword.js";
+import { upload } from "#config/config-multer.js";
 
 const routerUsers = express.Router();
 
@@ -25,6 +27,8 @@ routerUsers.get("/users/verify/:verificationToken", verifyUser);
 routerUsers.post("/users/verify", resendVerificationEmail);
 
 routerUsers.post("/users/login", validateLoginUserQuery, login);
+
+routerUsers.patch("/users/reset-password", resetUserPassword);
 
 routerUsers.get(
   "/users/current",
@@ -74,7 +78,7 @@ routerUsers.patch(
   "/users/avatars",
   refreshTokenMiddleware,
   passport.authenticate("jwt", { session: false }),
-  uploadAvatar,
+  upload.single("avatar"),
   updateUserAvatar
 );
 

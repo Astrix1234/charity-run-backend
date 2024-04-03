@@ -1,6 +1,6 @@
 import app from "./app.js";
 import mongoose from "mongoose";
-import { initUploadFolders } from "./config/config-multer.js";
+// import { initUploadFolders } from "./config/config-multer.js";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -11,7 +11,6 @@ const db = process.env.DB_NAME || "hematobieg";
 
 const startServer = async () => {
   try {
-    await initUploadFolders();
     await mongoose.connect(uriDb, {
       dbName: db,
       useNewUrlParser: true,

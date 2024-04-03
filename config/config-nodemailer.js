@@ -4,7 +4,7 @@ import nodemailer from "nodemailer";
 
 dotenv.config();
 
-const sendVerificationEmail = async (user) => {
+export const sendVerificationEmail = async (user) => {
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: parseInt(process.env.SMTP_PORT, 10),
@@ -54,4 +54,41 @@ const sendVerificationEmail = async (user) => {
   });
 };
 
-export default sendVerificationEmail;
+export const sendResetPasswordEmail = async (user, password) => {
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: parseInt(process.env.SMTP_PORT, 10),
+    secure: false,
+    service: process.env.SMTP_SERVICE,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASSWORD,
+    },
+  });
+
+  const contentTextEN = `You have requested to reset your password.`;
+  const contentHtmlEN = `<p>You have requested to reset your password.</p>
+  <p>Your new password is: <strong>${password}</strong></p>`;
+  const contentTextPL = `Zgłosiłeś prośbę o zresetowanie hasła.`;
+  const contentHtmlPL = `<p>Zgłosiłeś prośbę o zresetowanie hasła.</p>
+  <p>Twoje nowe hasło to: <strong>${password}</strong></p>`;
+
+  const mailOptions = {
+    from: process.env.SMTP_USER,
+    to: user.email,
+    subject:
+      user.language == "EN"
+        ? "Hematobieg: Reset Your Password"
+        : "Hematobieg:  Zresetuj Hasło",
+    text: user.language == "EN" ? contentTextEN : contentTextPL,
+    html: user.language == "EN" ? contentHtmlEN : contentHtmlPL,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+  });
+};

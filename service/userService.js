@@ -1,5 +1,5 @@
 import User from "./schemas/user.js";
-import sendVerificationEmail from "#config/config-nodemailer.js";
+import { sendVerificationEmail } from "#config/config-nodemailer.js";
 
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
@@ -71,10 +71,10 @@ const validateUser = async (email, password) => {
   return user;
 };
 
-const updateUserDetails = async (userId, language, name, surname, phone) => {
+const updateUserDetails = async (userId, language, name, surname, password) => {
   return User.findByIdAndUpdate(
     userId,
-    { language, name, surname, phone },
+    { language, name, surname, password },
     { new: true }
   );
 };
@@ -83,8 +83,16 @@ const getCurrent = async (userId) => {
   return User.findById(userId);
 };
 
-const updateAvatar = async (userId, avatarURL) => {
-  return User.findByIdAndUpdate(userId, { avatarURL }, { new: true });
+const updateAvatar = async (userId, imagePath) => {
+  return User.findByIdAndUpdate(
+    userId,
+    { avatarURL: imagePath },
+    { new: true }
+  );
+};
+
+const resetPassword = async (email, password) => {
+  return await User.findOneAndUpdate(email, { password }, { new: true });
 };
 
 export default {
@@ -96,4 +104,5 @@ export default {
   updateUserDetails,
   getCurrent,
   updateAvatar,
+  resetPassword,
 };
