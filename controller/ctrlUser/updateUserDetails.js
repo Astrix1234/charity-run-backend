@@ -32,7 +32,6 @@ export const updateUserDetails = async (req, res, next) => {
         language: updatedUser.language,
         name: updatedUser.name,
         surname: updatedUser.surname,
-        password: updatedUser.password,
       },
     });
   } catch (error) {

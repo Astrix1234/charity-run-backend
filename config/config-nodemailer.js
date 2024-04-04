@@ -68,10 +68,12 @@ export const sendResetPasswordEmail = async (user, password) => {
 
   const contentTextEN = `You have requested to reset your password.`;
   const contentHtmlEN = `<p>You have requested to reset your password.</p>
-  <p>Your new password is: <strong>${password}</strong></p>`;
+  <p>Your new password is: <strong>${password}</strong></p>
+  <p>Please change your password after logging in.</p>`;
   const contentTextPL = `Zgłosiłeś prośbę o zresetowanie hasła.`;
   const contentHtmlPL = `<p>Zgłosiłeś prośbę o zresetowanie hasła.</p>
-  <p>Twoje nowe hasło to: <strong>${password}</strong></p>`;
+  <p>Twoje nowe hasło to: <strong>${password}</strong></p>
+  <p>Prosimy o zmianę hasła po zalogowaniu.</p>`;
 
   const mailOptions = {
     from: process.env.SMTP_USER,

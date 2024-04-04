@@ -20,8 +20,6 @@ export const register = async (req, res, next) => {
       surname,
       phone,
     });
-    console.log("user", user);
-    console.log("user.language", user.language);
     res.status(201).json({
       user: {
         email: user.email,
