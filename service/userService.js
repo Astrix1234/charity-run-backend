@@ -13,7 +13,6 @@ const registerUser = async (userData) => {
   const gravatarUrl = `https://www.gravatar.com/avatar/${gravatarHash}?d=identicon`;
 
   const verificationToken = nanoid();
-  console.log("Generated verification token:", verificationToken);
   const newUser = new User({
     ...userData,
     avatarURL: gravatarUrl,

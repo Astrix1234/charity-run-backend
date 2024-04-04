@@ -37,11 +37,13 @@ export const getCurrentUser = async (req, res, next) => {
 };
 
 export const getUserAvatar = async (req, res) => {
+  if (!req.user || !req.user._id) {
+    return res.status(401).json({ message: "Not authorized" });
+  }
   const { avatarId } = req.params;
   try {
     await streamFileFromGridFS(avatarId, res);
   } catch (error) {
-    console.error(error);
     res.status(404).json({ err: "Not an image" });
   }
 };
