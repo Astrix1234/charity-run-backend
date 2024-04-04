@@ -63,7 +63,7 @@ const registerPayment = async ({
     urlReturn,
     urlStatus,
     urlNotify,
-    cart, //!!!!!!!!!!!!!! zły format wózka na zakupy
+    cart,
     email,
     sessionId,
     sign: crypto.createHash("sha384").update(checkSum).digest("hex"),
@@ -74,7 +74,20 @@ const registerPayment = async ({
     const transactionLink = `https://sandbox.przelewy24.pl/trnRequest/${paymentToken.data.token}`;
     // below is link for real transfers, above link for sandbox !!!!!!!!!!
     // const transactionLink = `https://secure.przelewy24.pl/trnRequest/${paymentToken.data.token}`;
-    return { data: transactionLink, cart: cart };
+
+    const participantData =
+      cart && cart[0]
+        ? JSON.parse(
+            String(cart[0].description)
+              .replaceAll("/", "")
+              .replaceAll("[", "")
+              .replaceAll("]", "")
+          )
+        : false;
+    return {
+      data: transactionLink,
+      participant: participantData,
+    };
   } catch (error) {
     console.error("Error while registering payment:", error);
     throw error;

@@ -2,20 +2,23 @@ import paymentService from "#service/paymentService.js";
 import { nanoid } from "nanoid";
 
 export const registerPayment = async (req, res, next) => {
-  const { amount, currency, description, country, language } = req.body;
+  const { amount, currency, description, country, language, participant } =
+    req.body;
   try {
-    // !!!!!!!!!!!!!!!! zły format wózka na zakupy
-    const cart = [
-      {
-        sellerId: "Hematobieg",
-        sellerCategory: "bieg",
-        name: "bieg",
-        description: "bieg",
-        quantity: 1,
-        price: 50,
-        number: "bieg",
-      },
-    ];
+    // !!!!!!!!!!! fill up participant data with user id etc
+    const cart = participant
+      ? [
+          {
+            sellerId: "Hematobieg",
+            sellerCategory: "Hematobieg",
+            name: "Participant",
+            description: JSON.stringify([participant]),
+            quantity: 1,
+            price: amount,
+            number: `${description}`,
+          },
+        ]
+      : undefined;
     if (!req.user || !req.user._id) {
       return res.status(401).json({ message: "Not authorized" });
     }
