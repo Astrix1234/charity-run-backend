@@ -25,10 +25,6 @@ const user = new Schema({
     type: String,
     required: [true, "Surname is required"],
   },
-  phone: {
-    type: String,
-    required: [true, "Phone number is required"],
-  },
   avatarURL: {
     type: String,
     default: "",
