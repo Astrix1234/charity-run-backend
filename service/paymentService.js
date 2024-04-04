@@ -1,5 +1,4 @@
 import axios from "axios";
-import { nanoid } from "nanoid";
 import crypto from "crypto";
 
 export const getPaymentToken = async (payment) => {
@@ -19,6 +18,24 @@ export const getPaymentToken = async (payment) => {
   }
 };
 
+export const confirmPayment = async (payment) => {
+  try {
+    axios.defaults.baseURL = process.env.P24_URL;
+    const response = await axios.post("/transaction/verify", payment, {
+      auth: {
+        username: process.env.P24_USER,
+        password: process.env.P24_PASS,
+      },
+    });
+    //returns true if payment is confirmed by p24
+    return response.data.status === "success";
+  } catch (err) {
+    console.error("Error while confirming payment:", err);
+    console.error("Error response:", err.response);
+    throw err;
+  }
+};
+
 const registerPayment = async ({
   amount,
   currency,
@@ -26,23 +43,14 @@ const registerPayment = async ({
   country,
   language,
   email,
+  sessionId,
+  urlReturn,
+  urlStatus,
+  urlNotify,
+  cart,
 }) => {
   const merchantId = Number(process.env.P24_ID);
-  const session = nanoid();
-  const checkSum = `{"sessionId":"${session}","merchantId":${merchantId},"amount":${amount},"currency":"${currency}","crc":"${process.env.P24_CRC}"}`;
-
-  //   { "merchantId": 155512,
-  //   "posId": 155512,
-  //   "urlReturn": "http://www.myurl.pl",
-  //         "amount": 5000,
-  //         "currency": "PLN",
-  //         "language": "PL",
-  //         "country": "Poland",
-  //         "description": "test payment 5000",
-  //         "email": "Password123#@email.com",
-  //         "sessionId": "ol5PYditTyLVkE8qAxwGi",
-  //         "sign": "dc63458293d93bf0ade127bb2d426fd6605663706bda97c3b4d94b8467ebbdba9e995803f91199a1cab8361311f149cc"
-  // }
+  const checkSum = `{"sessionId":"${sessionId}","merchantId":${merchantId},"amount":${amount},"currency":"${currency}","crc":"${process.env.P24_CRC}"}`;
 
   const tokenReq = {
     merchantId,
@@ -52,18 +60,21 @@ const registerPayment = async ({
     language,
     country,
     description,
-    urlReturn: "http://www.myurl.pl",
+    urlReturn,
+    urlStatus,
+    urlNotify,
+    cart, //!!!!!!!!!!!!!! zły format wózka na zakupy
     email,
-    sessionId: session,
+    sessionId,
     sign: crypto.createHash("sha384").update(checkSum).digest("hex"),
   };
 
   try {
-    // !!!!!!!!!!!!!!
     const paymentToken = await getPaymentToken(tokenReq);
-    // i have token, now i need to get p24 link
-    const transactionLink = `https://secure.przelewy24.pl/trnRequest/${paymentToken.data.token}`;
-    return transactionLink;
+    const transactionLink = `https://sandbox.przelewy24.pl/trnRequest/${paymentToken.data.token}`;
+    // below is link for real transfers, above link for sandbox !!!!!!!!!!
+    // const transactionLink = `https://secure.przelewy24.pl/trnRequest/${paymentToken.data.token}`;
+    return { data: transactionLink, cart: cart };
   } catch (error) {
     console.error("Error while registering payment:", error);
     throw error;
@@ -72,4 +83,5 @@ const registerPayment = async ({
 
 export default {
   registerPayment,
+  confirmPayment,
 };
