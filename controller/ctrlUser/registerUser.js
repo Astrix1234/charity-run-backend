@@ -20,7 +20,6 @@ export const register = async (req, res, next) => {
       surname,
       phone,
     });
-
     res.status(201).json({
       user: {
         email: user.email,

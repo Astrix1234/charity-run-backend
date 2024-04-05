@@ -1,7 +1,5 @@
 import userService from "#service/userService.js";
-import uploadMiddleware, {
-  processAndValidateImage,
-} from "#config/config-multer.js";
+import { saveFileToGridFS } from "#config/config-multer.js";
 
 export const updateUserAvatar = async (req, res, next) => {
   if (!req.user || !req.user._id) {
@@ -15,21 +13,11 @@ export const updateUserAvatar = async (req, res, next) => {
       return res.status(400).json({ message: "No file uploaded" });
     }
 
-    const newFilePath = await processAndValidateImage(file.path);
-    if (!newFilePath) {
-      return res.status(500).json({ message: "Error processing file" });
-    }
+    const fileId = await saveFileToGridFS(file, req.user.avatarURL);
 
-    const avatarURL = newFilePath.replace(/\\/g, "/").split("/public/").pop();
+    const user = await userService.updateAvatar(userId, fileId);
 
-    const updatedUser = await userService.updateAvatar(
-      userId,
-      `/avatars/${avatarURL}`
-    );
-
-    res.json({
-      avatarURL: updatedUser.avatarURL,
-    });
+    res.status(200).json(user);
   } catch (error) {
     console.error(error);
     next(error);

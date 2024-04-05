@@ -3,7 +3,7 @@ import Race from "./schemas/race.js";
 
 const findRaceByID = async (raceID) => {
   const found = Race.findOne({ raceID: raceID });
-  console.log(`services findRaceByID found(${!!found})`, found);
+  
   return found ? found : await findLatestRace();
 };
 const findLatestRace = async () => {

@@ -40,7 +40,7 @@ export const login = async (req, res, next) => {
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      maxAge: 1 * 24 * 60 * 60 * 1000, // 30 dni
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 dni
       secure: true,
       sameSite: "strict",
     });

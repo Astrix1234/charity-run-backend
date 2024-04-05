@@ -14,6 +14,10 @@ import { validateFullUserQuery } from "#validators/userFullValidator.js";
 import { validateLoginUserQuery } from "#validators/userLoginValidator.js";
 import refreshTokenMiddleware from "#middleware/refreshTokenMiddleware.js";
 import { createParticipant } from "#ctrlParticipation/createParticipant.js";
+import { getParticipant } from "#ctrlParticipation/getParticipant.js";
+import { resetUserPassword } from "#ctrlUser/resetUserPassword.js";
+import { upload } from "#config/config-multer.js";
+import { getUserAvatar } from "#ctrlUser/getCurrentUser.js";
 
 const routerUsers = express.Router();
 
@@ -30,6 +34,15 @@ routerUsers.get(
   refreshTokenMiddleware,
   passport.authenticate("jwt", { session: false }),
   getCurrentUser
+);
+
+// GET USER AVATAR
+
+routerUsers.get(
+  "/users/avatar/:avatarId",
+  refreshTokenMiddleware,
+  passport.authenticate("jwt", { session: false }),
+  getUserAvatar
 );
 
 routerUsers.patch(

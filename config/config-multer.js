@@ -1,26 +1,11 @@
 import multer from "multer";
-import path from "path";
-import fs from "fs/promises";
-import Jimp from "jimp";
-import { nanoid } from "nanoid";
+import { GridFSBucket } from "mongodb";
+import dotenv from "dotenv";
+import { Stream } from "stream";
+dotenv.config();
 
-const isAccessible = (path) =>
-  fs
-    .access(path)
-    .then(() => true)
-    .catch(() => false);
-
-const setupFolder = async (path) => {
-  const folderAvailable = await isAccessible(path);
-  if (!folderAvailable) {
-    try {
-      await fs.mkdir(path);
-    } catch (e) {
-      console.error("no permissions!", e);
-      process.exit(1);
-    }
-  }
-};
+const storage = multer.memoryStorage();
+export const upload = multer({ storage });
 
 export const initUploadFolders = async () => {
   await setupFolder(publicDir);
@@ -41,57 +26,55 @@ const storage = multer.diskStorage({
   },
 });
 
-const extensionWhiteList = [".jpg", ".jpeg", ".png", ".gif"];
-const mimetypeWhiteList = ["image/png", "image/jpg", "image/jpeg", "image/gif"];
+let gfs;
 
-const uploadMiddleware = multer({
-  storage,
-  fileFilter: async (req, file, cb) => {
-    const extension = path.extname(file.originalname).toLowerCase();
-    const mimetype = file.mimetype;
-    if (
-      !extensionWhiteList.includes(extension) ||
-      !mimetypeWhiteList.includes(mimetype)
-    ) {
-      return cb(null, false);
-    }
-    return cb(null, true);
-  },
-  limits: {
-    fileSize: 1024 * 1024 * 2,
-  },
+conn.once("open", () => {
+  (gfs = new GridFSBucket(conn.db, mongoose.mongo)), { bucketName: "uploads" };
 });
 
-const AVATAR_WIDTH = 250;
-const AVATAR_HEIGHT = 250;
-
-export const processAndValidateImage = async (tempFilePath) => {
+export const saveFileToGridFS = async (file, avatarId) => {
   try {
-    const image = await Jimp.read(tempFilePath);
-    const w = image.getWidth();
-    const h = image.getHeight();
+    const oldAvatar = await gfs.find({}).toArray();
+    const foundAvatar = await oldAvatar.find(
+      (item) => item._id.toString() === avatarId
+    );
+    if (foundAvatar) {
+      await gfs.delete(foundAvatar._id);
+    }
 
-    const cropWidth = Math.min(w, AVATAR_WIDTH);
-    const cropHeight = Math.min(h, AVATAR_HEIGHT);
+    // Zapisz nowy plik avatara
+    const uploadStream = gfs.openUploadStream(file.originalname, {
+      contentType: file.mimetype,
+    });
+    const bufferStream = new Stream.PassThrough();
+    bufferStream.end(file.buffer);
+    bufferStream.pipe(uploadStream);
 
-    const centerX = Math.round((w - cropWidth) / 2);
-    const centerY = Math.round((h - cropHeight) / 2);
+    return new Promise((resolve, reject) => {
+      uploadStream.on("error", (error) => {
+        reject(error);
+      });
 
-    await image
-      .rotate(360)
-      .crop(centerX, centerY, cropWidth, cropHeight)
-      .resize(AVATAR_WIDTH, AVATAR_HEIGHT)
-      .writeAsync(tempFilePath);
-
-    const newFileName = nanoid() + path.extname(tempFilePath);
-    const newFilePath = path.join(storeImageDir, newFileName);
-
-    await fs.rename(tempFilePath, newFilePath);
-    return newFilePath;
-  } catch (e) {
-    console.error(e);
-    return null;
+      uploadStream.on("finish", () => {
+        resolve(uploadStream.id);
+      });
+    });
+  } catch (error) {
+    throw error;
   }
 };
 
-export default uploadMiddleware;
+export const streamFileFromGridFS = async (fileId, res) => {
+  try {
+    const fileDataArray = await gfs.find({}).toArray();
+    const fileData = await fileDataArray.find(
+      (item) => item._id.toString() === fileId
+    );
+    const downloadStream = await gfs.openDownloadStream(fileData._id);
+    return await downloadStream.pipe(res);
+  } catch (error) {
+    res.status(404).json({
+      err: "Not an image",
+    });
+  }
+};
