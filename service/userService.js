@@ -2,20 +2,13 @@ import User from "./schemas/user.js";
 import { sendVerificationEmail } from "#config/config-nodemailer.js";
 
 import bcrypt from "bcryptjs";
-import crypto from "crypto";
 import { nanoid } from "nanoid";
 
 const registerUser = async (userData) => {
-  const gravatarHash = crypto
-    .createHash("md5")
-    .update(userData.email.toLowerCase())
-    .digest("hex");
-  const gravatarUrl = `https://www.gravatar.com/avatar/${gravatarHash}?d=identicon`;
-
   const verificationToken = nanoid();
   const newUser = new User({
     ...userData,
-    avatarURL: gravatarUrl,
+    avatarURL: null,
     verificationToken,
     verified: false,
   });
