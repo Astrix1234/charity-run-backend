@@ -52,6 +52,7 @@
     "#ctrlContacts/*": "./controller/ctrlContacts/*",
     "#ctrlUser/*": "./controller/ctrlUser/*",
     "#ctrlRace/*": "./controller/ctrlRace/*",
+    "#ctrlPayment/*": "./controller/ctrlPayment/*",
     "#ctrlParticipation/*": "./controller/ctrlParticipation/*",
     "#service/*": "./service/*",
     "#config/*": "./config/*",
