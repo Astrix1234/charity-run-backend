@@ -20,7 +20,7 @@ const participation = new Schema({
     required: [true, "Km amount is required"],
   },
   time: {
-    type: String,
+    type: Number,
   },
   status: {
     type: String,
@@ -31,7 +31,7 @@ const participation = new Schema({
     default: false,
   },
   payment: {
-    type: Object,
+    type: String,
     default: null,
   },
   shirt: {
