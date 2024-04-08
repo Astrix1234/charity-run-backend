@@ -17,7 +17,6 @@ const participation = new Schema({
   },
   km: {
     type: String,
-    required: [true, "Km amount is required"],
   },
   time: {
     type: String,
