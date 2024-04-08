@@ -8,7 +8,7 @@ export const sendVerificationEmail = async (user) => {
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: parseInt(process.env.SMTP_PORT, 10),
-    secure: false,
+    secure: true,
     service: process.env.SMTP_SERVICE,
     auth: {
       user: process.env.SMTP_USER,
@@ -92,5 +92,18 @@ export const sendResetPasswordEmail = async (user, password) => {
     } else {
       console.log("Email sent: " + info.response);
     }
+  });
+};
+
+export const sendParticipantDetailsEmail = async (participant) => {
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: parseInt(process.env.SMTP_PORT, 10),
+    secure: true,
+    service: process.env.SMTP_SERVICE,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASSWORD,
+    },
   });
 };
