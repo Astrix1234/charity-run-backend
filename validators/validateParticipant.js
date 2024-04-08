@@ -1,11 +1,22 @@
 import Joi from "joi";
+import raceService from "#service/raceService.js";
 
-export const validateParticipationQuery = (req, res, next) => {
+export const validateParticipant = async ({
+  raceID,
+  userId,
+  km,
+  shirt,
+  shirtGender,
+  time,
+  status,
+  paid,
+  payment,
+}) => {
   const schema = Joi.object({
     // date: Joi.date().required(), //day of the race
     // location: Joi.string().required(), //city
     raceID: Joi.string().required(), //id of race - for filtering how many participants in specific race we have
-    userId: Joi.string().required(),
+    userId: Joi.object().required(),
 
     km: Joi.string().required(), //distance of user choice
     shirt: Joi.string().required(),
@@ -18,10 +29,27 @@ export const validateParticipationQuery = (req, res, next) => {
     paid: Joi.bool().default(false),
     payment: Joi.object(), //all data needed to track the payment ?
   });
-
-  const { error } = schema.validate(req.body);
+  const validRaceID = raceID
+    ? raceID
+    : (await raceService.findLatestRace()).raceID;
+  const verifiedParticipant = {
+    raceID: validRaceID,
+    userId,
+    km,
+    shirt,
+    shirtGender,
+    time,
+    status,
+    paid,
+    payment,
+  };
+  const { error } = schema.validate(verifiedParticipant);
   if (error) {
-    return res.status(400).json({ message: error.details[0].message });
+    console.log(
+      `------------validatePArticipant - error ----------------`,
+      error
+    );
+    return false;
   }
-  next();
+  return verifiedParticipant;
 };
