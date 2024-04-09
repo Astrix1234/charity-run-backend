@@ -8,13 +8,11 @@ dotenv.config();
 const storage = multer.memoryStorage();
 export const upload = multer({ storage });
 
-const uriDb = process.env.DB_HOST;
+const uriDb = process.env.COSMOS_DB_CONNECTION_STRING;
 const db = process.env.DB_NAME || "hematobieg";
 
 mongoose.connect(uriDb, {
   dbName: db,
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
 });
 const conn = mongoose.connection;
 
