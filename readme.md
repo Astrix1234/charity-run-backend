@@ -30,8 +30,11 @@ Once the server is running, the API is available at http://localhost:[PORT]/api/
   - <a href="https://monosnap.com/file/Bhy6SEW7hmmIsBxMjo5MNov1afCCQm" target="_blank">Screenshot showing the verification email received by the user with the verification link<a>
   - <a href="https://monosnap.com/file/iIZuvuS6nwGMDPl1ryMV6V5cZPp4Z7" target="_blank">Screenshot showing the response from the localhost server for email verification in a browser using the verification token<a>
 - POST /api/users/login - logs in a user.
+
   - <a href="https://monosnap.com/file/1QearrUEnnz8tTMYbPgq9fX4LEPWEi" target="_blank">Screenshot: User Login in Postman<a>
-- PATCH `/api/users/participate` `auth(<bearer token>)` `body({ raceID, familyNr, km, time, status, paid, payment, shirt, shirtGender })` Add/update participation for specific race under current user. FamilyNr indicates which person to register/update for this race within same account starting with FamilyNr=0 as default.
+
+<!-- - PATCH `/api/users/participate` `auth(<bearer token>)` `body({ raceID, familyNr, km, time, status, paid, payment, shirt, shirtGender })` Add/update participation for specific race under current user. FamilyNr indicates which person to register/update for this race within same account starting with FamilyNr=0 as default. -->
+
 - PATCH /api/users - update user data
 - GET /api/users/logout - logs out a user.
   - <a href="https://monosnap.com/file/wzx7ReQLMecv0PcVfw8LRyKPxx2kIW" target="_blank">Screenshot: User Logout in Postman<a>
@@ -41,7 +44,12 @@ Once the server is running, the API is available at http://localhost:[PORT]/api/
   - <a href="https://monosnap.com/file/nB2cRb7BpTqF0S3pG9Lqulqsp2NWtb" target="_blank">Screenshot: Updating User Avatar in Postman<a>
   - <a href="https://monosnap.com/file/e8mAwkXi4IOyfr5BXPJY7kDsB3AFMF" target="_blank">Screenshot: Updated User Avatar - Users Collection in MongoDB Compass<a>
 
+#### Payment:
 
-#### Race: 
+- POST `/api/payment/donation` `body({amount*, email})` \*amount in grosze is required, email can be skipped. Gets a link leading to p24 donation
+
+- POST `/api/payment/participate` `body({amount*, participant*})` \*amount in grosze is required, participant required ({ km\_, shirt*, shirtGender*, raceID }). Gets a link leading to p24 payment to register participant.
+
+#### Race:
 
 - GET api/race - get all participants list from chosen race

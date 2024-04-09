@@ -1,20 +1,18 @@
 import express from "express";
 import passport from "passport";
-import { registerPayment } from "#ctrlPayment/registerPayment.js";
+import { registerForParticipation } from "#ctrlPayment/registerForParticipation.js";
+import { registerForDonation } from "#ctrlPayment/registerForDonation.js";
 import { finalizePayment } from "#ctrlPayment/finalizePayment.js";
 
 const routerPayment = express.Router();
 
+routerPayment.post("/payment/donation", registerForDonation);
 routerPayment.post(
-  "/payment/register",
+  "/payment/participate",
   passport.authenticate("jwt", { session: false }),
-  registerPayment
+  registerForParticipation
 );
-routerPayment.get(
-  "/payment/finalize",
-  // passport.authenticate("jwt", { session: false }),
-  finalizePayment
-);
+routerPayment.get("/payment/finalize", finalizePayment);
 
 routerPayment.get("*", (req, res) => {
   const notificationData = req.body;
