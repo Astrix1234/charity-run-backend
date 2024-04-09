@@ -1,3 +1,4 @@
+import { sendParticipantDetailsEmail } from "#config/config-nodemailer.js";
 import participationService from "#service/participationService.js";
 
 export const createParticipant = async (req, res, next) => {
@@ -15,8 +16,15 @@ export const createParticipant = async (req, res, next) => {
     phone,
   } = req.body;
   try {
+    const user = req.user;
     const userId = req.user._id;
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
     const userMail = req.user.email;
+    if (!userMail) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
     const createdParticipation = await participationService.createParticipation(
       {
         userId,
@@ -38,7 +46,7 @@ export const createParticipant = async (req, res, next) => {
     if (!createdParticipation) {
       return res.status(404).json({ message: "Participation not found" });
     }
-
+    sendParticipantDetailsEmail(user, createdParticipation);
     res.status(201).json({
       participation: {
         userId,

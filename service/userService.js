@@ -15,12 +15,11 @@ const registerUser = async (userData) => {
 
   try {
     await newUser.save();
+    await sendVerificationEmail(newUser);
   } catch (error) {
     console.error("Error saving user:", error);
     throw error;
   }
-
-  await sendVerificationEmail(newUser);
 
   return newUser;
 };

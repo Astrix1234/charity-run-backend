@@ -6,15 +6,13 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const PORT = process.env.PORT || 3000;
-const uriDb = process.env.DB_HOST;
+const uriDb = process.env.COSMOS_DB_CONNECTION_STRING;
 const db = process.env.DB_NAME || "hematobieg";
 
 const startServer = async () => {
   try {
     await mongoose.connect(uriDb, {
       dbName: db,
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
     });
     console.log(`Database connection successful`);
     app.listen(PORT, () => {
