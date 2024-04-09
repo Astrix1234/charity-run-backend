@@ -3,10 +3,17 @@ import { validateParticipant } from "#validators/validateParticipant.js";
 import { nanoid } from "nanoid";
 
 export const registerPayment = async (req, res, next) => {
-  const { amount, currency, description, country, language, participant } =
-    req.body;
+  const {
+    amount,
+    currency,
+    description,
+    country,
+    language,
+    participant,
+    email,
+  } = req.body;
   try {
-    if (!req.user || !req.user._id) {
+    if (participant && (!req.user || !req.user._id)) {
       return res.status(401).json({ message: "Not authorized" });
     }
     if (!amount || typeof amount != "number" || Number(amount) < 1) {
@@ -15,16 +22,20 @@ export const registerPayment = async (req, res, next) => {
         .json({ message: `Amount must be a positive number` });
     }
     const userId = req.user._id;
-    const email = req.user.email;
+    const validEmail = req.user
+      ? req.user.email
+      : email
+      ? email
+      : process.env.P24_ALT_EMAIL;
     // !!!!!!!!!!! fill up participant data with user id etc
     // !!!!!!!!! validate participant
     const validParticipant = participant
-      ? await validateParticipant({ ...participant, userId, email })
+      ? await validateParticipant({ ...participant, userId, email: validEmail })
       : null;
     console.log(`registerPayment ------------------ participant:`, {
       ...participant,
       userId,
-      email,
+      email: validEmail,
     });
     console.log(
       `registerPayment ------------------ validParticipant:`,
@@ -53,7 +64,7 @@ export const registerPayment = async (req, res, next) => {
       cart,
       currency: currency || "PLN",
       description: `Hematobieg registration ${description || ""}`,
-      email: user.email,
+      email: validEmail,
       country: country || "PL",
       language: language || "pl",
       // waitForResult: true,
