@@ -1,5 +1,9 @@
 import paymentService from "#service/paymentService.js";
 import participationService from "#service/participationService.js";
+import {
+  sendParticipantDetailsEmail,
+  thankYouEmail,
+} from "#config/config-nodemailer.js";
 
 export const finalizePayment = async (req, res, next) => {
   const { amount, currency, orderId, sign, cart } = req.body;
@@ -55,12 +59,17 @@ export const finalizePayment = async (req, res, next) => {
             shirt: updatedParticipation.shirt,
             shirtGender: updatedParticipation.shirtGender,
             name: updatedParticipation.name,
-            email: updatedParticipation.mail,
+            email: updatedParticipation.email,
             surname: updatedParticipation.surname,
           })
         : `Donation of [${amount}] received`
     );
     console.log("payment finalized successfully.");
+    if (participantData) {
+      sendParticipantDetailsEmail({ email, language }, participantData);
+    } else {
+      thankYouEmail();
+    }
   } catch (error) {
     console.error("Error while finalizing transaction", error);
     next(error);

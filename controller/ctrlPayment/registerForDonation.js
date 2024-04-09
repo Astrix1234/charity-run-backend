@@ -2,23 +2,14 @@ import paymentService from "#service/paymentService.js";
 import { nanoid } from "nanoid";
 
 export const registerForDonation = async (req, res, next) => {
-  const {
-    amount,
-    currency,
-    description,
-    country,
-    language,
-    email,
-  } = req.body;
+  const { amount, currency, description, country, language, email } = req.body;
   try {
     if (!amount || typeof amount != "number" || Number(amount) < 1) {
       return res
         .status(401)
         .json({ message: `Amount must be a positive number` });
     }
-    const validEmail = email
-      ? email
-      : process.env.P24_ALT_EMAIL;
+    const validEmail = email ? email : process.env.P24_ALT_EMAIL;
     const cart = undefined;
     const sessionId = nanoid();
     const data = await paymentService.registerPayment({

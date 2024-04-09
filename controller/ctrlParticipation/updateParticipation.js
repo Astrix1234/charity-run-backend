@@ -51,7 +51,7 @@ export const updateParticipation = async (req, res, next) => {
         shirt: updatedParticipation.shirt,
         shirtGender: updatedParticipation.shirtGender,
         name: updatedParticipation.name,
-        email: updatedParticipation.mail,
+        email: updatedParticipation.email,
         surname: updatedParticipation.surname,
       },
     });

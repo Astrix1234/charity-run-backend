@@ -59,7 +59,7 @@ export const createParticipant = async (req, res, next) => {
         shirt: createdParticipation.shirt,
         shirtGender: createdParticipation.shirtGender,
         name: createdParticipation.name,
-        email: createdParticipation.mail,
+        email: createdParticipation.email,
         surname: createdParticipation.surname,
         phone: createdParticipation.phone,
       },
