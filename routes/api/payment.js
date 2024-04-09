@@ -17,29 +17,20 @@ routerPayment.get(
 );
 
 routerPayment.get("*", (req, res) => {
-  // Process the notification data
   const notificationData = req.body;
-
-  // Handle the notification data as per your requirement
   console.log(
     "Received notification (get*) from Przelewy24:",
     notificationData
   );
-
-  // Send a response to acknowledge receipt of the notification
   res.status(200).send("Notification received successfully.");
 });
-routerPayment.post("*", (req, res) => {
-  // Process the notification data
-  const notificationData = req.body;
 
-  // Handle the notification data as per your requirement
+routerPayment.post("*", (req, res) => {
+  const notificationData = req.body;
   console.log(
     "Received notification (post*) from Przelewy24:",
     notificationData
   );
-
-  // Send a response to acknowledge receipt of the notification
   res.status(200).send("Notification received successfully.");
 });
 

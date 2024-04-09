@@ -1,4 +1,5 @@
 import paymentService from "#service/paymentService.js";
+import { validateParticipant } from "#validators/validateParticipant.js";
 import { nanoid } from "nanoid";
 
 export const registerPayment = async (req, res, next) => {
@@ -16,13 +17,26 @@ export const registerPayment = async (req, res, next) => {
     const userId = req.user._id;
     const mail = req.user.email;
     // !!!!!!!!!!! fill up participant data with user id etc
+    // !!!!!!!!! validate participant
+    const validParticipant = participant
+      ? await validateParticipant({ ...participant, userId, mail })
+      : null;
+    console.log(`registerPayment ------------------ participant:`, {
+      ...participant,
+      userId,
+      mail,
+    });
+    console.log(
+      `registerPayment ------------------ validParticipant:`,
+      validParticipant
+    );
     const cart = participant
       ? [
           {
             sellerId: "Hematobieg",
             sellerCategory: "Hematobieg",
             name: "Participant",
-            description: JSON.stringify([{ ...participant, userId, mail }]),
+            description: JSON.stringify([validParticipant]),
             quantity: 1,
             price: amount,
             number: `${description}`,
