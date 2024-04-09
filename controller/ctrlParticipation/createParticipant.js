@@ -29,7 +29,7 @@ export const createParticipant = async (req, res, next) => {
         shirt,
         shirtGender,
         name,
-        mail: userMail,
+        email: userMail,
         surname,
         phone,
       }
@@ -51,7 +51,7 @@ export const createParticipant = async (req, res, next) => {
         shirt: createdParticipation.shirt,
         shirtGender: createdParticipation.shirtGender,
         name: createdParticipation.name,
-        mail: createdParticipation.mail,
+        email: createdParticipation.mail,
         surname: createdParticipation.surname,
         phone: createdParticipation.phone,
       },

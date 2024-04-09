@@ -12,7 +12,7 @@ const participation = new Schema({
     ref: "user",
     required: [true, "User not defined"],
   },
-  mail: {
+  email: {
     type: String,
   },
   km: {

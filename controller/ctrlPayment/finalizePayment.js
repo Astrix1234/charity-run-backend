@@ -55,7 +55,7 @@ export const finalizePayment = async (req, res, next) => {
             shirt: updatedParticipation.shirt,
             shirtGender: updatedParticipation.shirtGender,
             name: updatedParticipation.name,
-            mail: updatedParticipation.mail,
+            email: updatedParticipation.mail,
             surname: updatedParticipation.surname,
           })
         : `Donation of [${amount}] received`

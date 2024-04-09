@@ -15,16 +15,16 @@ export const registerPayment = async (req, res, next) => {
         .json({ message: `Amount must be a positive number` });
     }
     const userId = req.user._id;
-    const mail = req.user.email;
+    const email = req.user.email;
     // !!!!!!!!!!! fill up participant data with user id etc
     // !!!!!!!!! validate participant
     const validParticipant = participant
-      ? await validateParticipant({ ...participant, userId, mail })
+      ? await validateParticipant({ ...participant, userId, email })
       : null;
     console.log(`registerPayment ------------------ participant:`, {
       ...participant,
       userId,
-      mail,
+      email,
     });
     console.log(
       `registerPayment ------------------ validParticipant:`,
