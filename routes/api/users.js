@@ -61,12 +61,12 @@ routerUsers.post(
   createParticipant
 );
 
-routerUsers.patch(
-  "/users/participate",
-  refreshTokenMiddleware,
-  passport.authenticate("jwt", { session: false }),
-  updateParticipation
-);
+// routerUsers.patch(
+//   "/users/participate",
+//   refreshTokenMiddleware,
+//   passport.authenticate("jwt", { session: false }),
+//   updateParticipation
+// );
 
 routerUsers.get(
   "/users/participant",

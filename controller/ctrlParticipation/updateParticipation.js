@@ -29,7 +29,7 @@ export const updateParticipation = async (req, res, next) => {
         shirt,
         shirtGender,
         name,
-        mail: userMail,
+        email: userMail,
         surname,
         phone,
       }
@@ -51,7 +51,7 @@ export const updateParticipation = async (req, res, next) => {
         shirt: updatedParticipation.shirt,
         shirtGender: updatedParticipation.shirtGender,
         name: updatedParticipation.name,
-        mail: updatedParticipation.mail,
+        email: updatedParticipation.email,
         surname: updatedParticipation.surname,
       },
     });
