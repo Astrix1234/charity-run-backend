@@ -9,7 +9,7 @@ const storage = multer.memoryStorage();
 export const upload = multer({ storage });
 
 const uriDb = process.env.COSMOS_DB_CONNECTION_STRING;
-const db = process.env.DB_NAME || "hematobieg";
+const db = process.env.DB_NAME || "db-contacts";
 
 mongoose.connect(uriDb, {
   dbName: db,
