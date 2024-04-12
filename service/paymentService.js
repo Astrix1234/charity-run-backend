@@ -62,7 +62,7 @@ const registerPayment = async ({
     description,
     urlReturn,
     urlStatus,
-    urlNotify,
+    // urlNotify,
     cart,
     email,
     sessionId,
