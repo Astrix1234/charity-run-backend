@@ -28,6 +28,7 @@
 
 import userService from "#service/userService.js";
 import path from "path";
+import fs from "fs";
 
 export const updateUserAvatar = async (req, res, next) => {
   if (!req.user || !req.user._id) {
@@ -40,6 +41,19 @@ export const updateUserAvatar = async (req, res, next) => {
 
     if (!file) {
       return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    // Fetch the user's current avatar path
+    const oldAvatarPath = req.user.avatarURL;
+
+    // Delete the old avatar file
+    if (oldAvatarPath) {
+      fs.unlink(oldAvatarPath, (err) => {
+        if (err) {
+          console.error("Error deleting old avatar:", err);
+          return res.status(500).json({ message: "Internal Server Error" });
+        }
+      });
     }
 
     const avatarPath = path.join("public", "avatars", file.filename);
