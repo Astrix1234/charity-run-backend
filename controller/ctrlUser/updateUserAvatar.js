@@ -29,6 +29,7 @@
 import userService from "#service/userService.js";
 import path from "path";
 import fs from "fs";
+import crypto from "crypto";
 
 export const updateUserAvatar = async (req, res, next) => {
   if (!req.user || !req.user._id) {
@@ -44,10 +45,9 @@ export const updateUserAvatar = async (req, res, next) => {
     }
 
     // Fetch the user's current avatar path
-    const oldAvatarPath = req.user.avatarURL;
-
+    const oldAvatarPath = path.join(req.user.avatarURL);
     // Delete the old avatar file
-    if (oldAvatarPath) {
+    if (oldAvatarPath && fs.existsSync(oldAvatarPath)) {
       fs.unlink(oldAvatarPath, (err) => {
         if (err) {
           console.error("Error deleting old avatar:", err);
@@ -56,9 +56,13 @@ export const updateUserAvatar = async (req, res, next) => {
       });
     }
 
-    const avatarPath = path.join("public", "avatars", file.filename);
-    console.log("Avatar Path:", avatarPath);
-
+    const avatarPath = path.join(
+      process.cwd(),
+      "public",
+      "avatars",
+      `${crypto.randomBytes(2).toString("hex")}_${file.filename}`
+    );
+    fs.renameSync(file.path, avatarPath);
     const user = await userService.updateAvatar(userId, avatarPath);
 
     res.status(200).json(user);

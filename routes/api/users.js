@@ -38,11 +38,7 @@ routerUsers.get(
 
 // GET USER AVATAR
 
-routerUsers.get(
-  "/users/avatar",
-  passport.authenticate("jwt", { session: false }),
-  getUserAvatar
-);
+routerUsers.get("/users/avatar/:userId", getUserAvatar);
 
 routerUsers.patch(
   "/users",

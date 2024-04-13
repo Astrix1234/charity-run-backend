@@ -22,6 +22,7 @@ export const getCurrentUser = async (req, res, next) => {
     }
 
     res.status(200).json({
+      id: user._id,
       email: user.email,
       language: user.language,
       name: user.name,
@@ -53,12 +54,14 @@ import path from "path";
 import mime from "mime-types";
 
 export const getUserAvatar = async (req, res) => {
-  if (!req.user || !req.user._id) {
-    return res.status(401).json({ message: "Not authorized" });
+  const userId = req.params.userId;
+  const user = await userService.getCurrent(userId);
+  if (!user) {
+    return res.status(404).json({ err: "User not found" });
   }
-  const avatarId = req.user.avatarURL;
+
   try {
-    const filePath = path.join(process.cwd(), avatarId);
+    const filePath = path.join(user.avatarURL);
     if (fs.existsSync(filePath)) {
       const mimeType = mime.lookup(filePath);
       if (mimeType) {
