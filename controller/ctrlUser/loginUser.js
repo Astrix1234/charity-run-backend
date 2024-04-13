@@ -35,14 +35,14 @@ export const login = async (req, res, next) => {
       httpOnly: true,
       maxAge: 15 * 60 * 1000, // 15 minut
       secure: true,
-      sameSite: "strict",
+      sameSite: "None",
     });
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 dni
       secure: true,
-      sameSite: "strict",
+      sameSite: "None",
     });
 
     res.json({
