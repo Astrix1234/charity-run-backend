@@ -1,6 +1,6 @@
 import userService from "#service/userService.js";
 import participationService from "#service/participationService.js";
-import { streamFileFromGridFS } from "#config/config-multer.js";
+// import { streamFileFromGridFS } from "#config/config-multer.js";
 
 export const getCurrentUser = async (req, res, next) => {
   if (!req.user || !req.user._id) {
@@ -36,14 +36,41 @@ export const getCurrentUser = async (req, res, next) => {
   }
 };
 
+// export const getUserAvatar = async (req, res) => {
+//   if (!req.user || !req.user._id) {
+//     return res.status(401).json({ message: "Not authorized" });
+//   }
+//   const { avatarId } = req.params;
+//   try {
+//     await streamFileFromGridFS(avatarId, res);
+//   } catch (error) {
+//     res.status(404).json({ err: "Not an image" });
+//   }
+// };
+
+import fs from "fs";
+import path from "path";
+import mime from "mime-types";
+
 export const getUserAvatar = async (req, res) => {
   if (!req.user || !req.user._id) {
     return res.status(401).json({ message: "Not authorized" });
   }
-  const { avatarId } = req.params;
+  const avatarId = req.user.avatarURL;
   try {
-    await streamFileFromGridFS(avatarId, res);
+    const filePath = path.join(process.cwd(), avatarId);
+    if (fs.existsSync(filePath)) {
+      const mimeType = mime.lookup(filePath);
+      if (mimeType) {
+        res.setHeader("Content-Type", mimeType);
+        fs.createReadStream(filePath).pipe(res);
+      } else {
+        res.status(404).json({ err: "Not an image" });
+      }
+    } else {
+      res.status(404).json({ err: "Not an image" });
+    }
   } catch (error) {
-    res.status(404).json({ err: "Not an image" });
+    res.status(500).json({ err: "Server error" });
   }
 };
