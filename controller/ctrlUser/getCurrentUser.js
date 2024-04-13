@@ -9,13 +9,13 @@ export const getCurrentUser = async (req, res, next) => {
 
   try {
     const userId = req.user._id;
-    const { raceID } = req.body;
     const user = await userService.getCurrent(userId);
-    const participations =
-      await participationService.getParticipationsOfCurrentUser({
-        userId,
-        raceID,
-      });
+    // const { raceID } = req.body;
+    // const participations =
+    //   await participationService.getParticipationsOfCurrentUser({
+    //     userId,
+    //     raceID,
+    //   });
 
     if (!user) {
       return res.status(401).json({ message: "Not authorized" });
@@ -29,7 +29,7 @@ export const getCurrentUser = async (req, res, next) => {
       surname: user.surname,
       phone: user.phone,
       avatarURL: user.avatarURL,
-      raceParticipants: participations.map((participant) => participant._id),
+      // raceParticipants: participations.map((participant) => participant._id),
     });
   } catch (error) {
     console.error(error);
