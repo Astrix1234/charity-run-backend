@@ -4,12 +4,8 @@ import jwt from "jsonwebtoken";
 
 const generateAccessToken = (userId) => {
   return jwt.sign({ id: userId }, process.env.SECRET, {
-    expiresIn: "15m", // Token dostępu wygasa po 15 minutach
+    expiresIn: "30d", // Token dostępu wygasa po 30 dniach
   });
-};
-
-const generateRefreshToken = (userId) => {
-  return jwt.sign({ id: userId }, process.env.SECRET);
 };
 
 export const login = async (req, res, next) => {
@@ -28,22 +24,6 @@ export const login = async (req, res, next) => {
 
     // Generowanie tokenów dostępu i odświeżania
     const token = generateAccessToken(user._id);
-    const refreshToken = generateRefreshToken(user._id);
-
-    // Ustawianie tokena JWT jako pliku cookie
-    res.cookie("jwt", token, {
-      httpOnly: true,
-      maxAge: 15 * 60 * 1000, // 15 minut
-      secure: true,
-      sameSite: "None",
-    });
-
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 dni
-      secure: true,
-      sameSite: "None",
-    });
 
     res.json({
       token,

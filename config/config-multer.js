@@ -13,6 +13,8 @@ const db = process.env.DB_NAME || "db-contacts";
 
 mongoose.connect(uriDb, {
   dbName: db,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 const conn = mongoose.connection;
 

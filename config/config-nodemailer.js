@@ -27,7 +27,7 @@ export const sendVerificationEmail = async (user) => {
   ${link}`;
 
   const contentHtmlEN = `
-  <div style="display: flex; flex-direction: column; align-items: center;" >
+  <div style="display: block;" >
   <h2 style="font-size: 20px;
     font-weight: bold;
     text-align: center;
@@ -49,7 +49,7 @@ export const sendVerificationEmail = async (user) => {
   ${link}`;
 
   const contentHtmlPL = `
-  <div style="display: flex; flex-direction: column; align-items: center;">
+  <div style="display: block;">
   <h2 style="font-size: 20px;
     font-weight: bold;
     text-align: center;
@@ -105,7 +105,7 @@ export const sendResetPasswordEmail = async (user, password) => {
 
   const contentTextEN = `You have requested to reset your password.`;
   const contentHtmlEN = `
-  <div style="display: flex; flex-direction: column; align-items: center;">
+  <div style="display: block;">
   <h2 style="font-size: 20px;
     font-weight: bold;
     text-align: center;
@@ -120,7 +120,7 @@ export const sendResetPasswordEmail = async (user, password) => {
   </div>`;
   const contentTextPL = `Zgłosiłeś prośbę o zresetowanie hasła.`;
   const contentHtmlPL = `
-  <div style="display: flex; flex-direction: column; align-items: center;">
+  <div style="display: block;">
   <h2 style="font-size: 20px;
     font-weight: bold;
     text-align: center;
@@ -174,7 +174,7 @@ export const sendParticipantDetailsEmail = async (user, participant) => {
 
   const contentTextEN = `Thank you for joining Hematobieg!`;
   const contentHtmlEN = `
-  <div style="display: flex; flex-direction: column; align-items: center;">
+  <div style="display: block;">
   <h2 style="font-size: 20px;
     font-weight: bold;
     text-align: center;" >Thank you for joining:</h2>
@@ -199,7 +199,7 @@ export const sendParticipantDetailsEmail = async (user, participant) => {
   </div>`;
   const contentTextPL = `Bardzo dziękujemy za zapisanie się na Hematobieg!`;
   const contentHtmlPL = `
-  <div style="display: flex; flex-direction: column; align-items: center;" >
+  <div style="display: block;" >
 <h2 style="font-size: 20px;
     font-weight: bold;
     text-align: center;">Bardzo dziękujemy za zapisanie się na:</h2>
@@ -261,7 +261,7 @@ export const thankYouEmail = async (user) => {
 
   const contentTextEN = `Thank you for your donation!`;
   const contentHtmlEN = `
-  <div style="display: flex; flex-direction: column; align-items: center;">
+  <div style="display: block;">
   <h2 style="font-size: 20px;
     font-weight: bold;
     text-align: center;
@@ -275,7 +275,7 @@ export const thankYouEmail = async (user) => {
     </div>`;
   const contentTextPL = ` Dziękujemy za Twoją dotację!`;
   const contentHtmlPL = `
-  <div style="display: flex; flex-direction: column; align-items: center;">
+  <div style="display: block;">
   <h2 style="font-size: 20px;
     font-weight: bold;
     text-align: center;

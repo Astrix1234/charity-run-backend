@@ -11,7 +11,6 @@ import routerPayment from "./routes/api/payment.js";
 import "./config/config-passport.js";
 
 import dotenv from "dotenv";
-import cookieParser from "cookie-parser";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -27,8 +26,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
-app.use(cookieParser());
 
 app.use(passport.initialize());
 

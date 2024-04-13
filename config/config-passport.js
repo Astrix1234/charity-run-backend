@@ -11,15 +11,7 @@ const ExtractJWT = passportJWT.ExtractJwt;
 const Strategy = passportJWT.Strategy;
 const params = {
   secretOrKey: secret,
-  jwtFromRequest: ExtractJWT.fromExtractors([
-    (req) => {
-      let token = null;
-      if (req && req.cookies) {
-        token = req.cookies.jwt;
-      }
-      return token;
-    },
-  ]),
+  jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
 };
 
 passport.use(

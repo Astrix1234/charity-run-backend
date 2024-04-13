@@ -12,7 +12,6 @@ import { getCurrentUser } from "#ctrlUser/getCurrentUser.js";
 import { updateUserAvatar } from "#ctrlUser/updateUserAvatar.js";
 import { validateFullUserQuery } from "#validators/userFullValidator.js";
 import { validateLoginUserQuery } from "#validators/userLoginValidator.js";
-import refreshTokenMiddleware from "#middleware/refreshTokenMiddleware.js";
 import { createParticipant } from "#ctrlParticipation/createParticipant.js";
 import { getParticipant } from "#ctrlParticipation/getParticipant.js";
 import { resetUserPassword } from "#ctrlUser/resetUserPassword.js";
@@ -33,7 +32,6 @@ routerUsers.patch("/users/reset-password", resetUserPassword);
 
 routerUsers.get(
   "/users/current",
-  refreshTokenMiddleware,
   passport.authenticate("jwt", { session: false }),
   getCurrentUser
 );
@@ -42,21 +40,18 @@ routerUsers.get(
 
 routerUsers.get(
   "/users/avatar/:avatarId",
-  refreshTokenMiddleware,
   passport.authenticate("jwt", { session: false }),
   getUserAvatar
 );
 
 routerUsers.patch(
   "/users",
-  refreshTokenMiddleware,
   passport.authenticate("jwt", { session: false }),
   updateUserDetails
 );
 
 routerUsers.post(
   "/users/participate",
-  refreshTokenMiddleware,
   passport.authenticate("jwt", { session: false }),
   createParticipant
 );
@@ -70,7 +65,6 @@ routerUsers.post(
 
 routerUsers.get(
   "/users/participant",
-  refreshTokenMiddleware,
   passport.authenticate("jwt", { session: false }),
   getParticipant
 );
@@ -79,14 +73,12 @@ routerUsers.get(
 
 routerUsers.get(
   "/users/logout",
-  refreshTokenMiddleware,
   passport.authenticate("jwt", { session: false }),
   logout
 );
 
 routerUsers.patch(
   "/users/avatars",
-  refreshTokenMiddleware,
   passport.authenticate("jwt", { session: false }),
   upload.single("avatar"),
   updateUserAvatar
