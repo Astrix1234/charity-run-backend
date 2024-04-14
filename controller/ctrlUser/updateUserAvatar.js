@@ -47,13 +47,15 @@ export const updateUserAvatar = async (req, res, next) => {
     // Fetch the user's current avatar path
     const oldAvatarPath = path.join(req.user.avatarURL);
     // Delete the old avatar file
-    if (oldAvatarPath && fs.existsSync(oldAvatarPath)) {
+    if (fs.existsSync(oldAvatarPath)) {
       fs.unlink(oldAvatarPath, (err) => {
         if (err) {
           console.error("Error deleting old avatar:", err);
           return res.status(500).json({ message: "Internal Server Error" });
         }
       });
+    } else {
+      console.log("Path does not exist, skipping deletion.");
     }
 
     const avatarPath = path.join(
