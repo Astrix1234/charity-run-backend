@@ -12,6 +12,7 @@ export const validateFullUserQuery = (req, res, next) => {
     language: Joi.string().valid("EN", "PL").default("PL"),
     name: Joi.string().min(2).required(),
     surname: Joi.string().min(2).required(),
+    agreementStatements: Joi.boolean().required(),
   });
 
   const { error } = schema.validate(req.body);
