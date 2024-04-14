@@ -38,7 +38,7 @@ routerUsers.get(
 
 // GET USER AVATAR
 
-routerUsers.get("/users/avatar/:userId", getUserAvatar);
+routerUsers.get("/users/avatar/:avatarURL", getUserAvatar);
 
 routerUsers.patch(
   "/users",

@@ -54,14 +54,15 @@ import path from "path";
 import mime from "mime-types";
 
 export const getUserAvatar = async (req, res) => {
-  const userId = req.params.userId;
-  const user = await userService.getCurrent(userId);
-  if (!user) {
-    return res.status(404).json({ err: "User not found" });
+  const avatarURL = req.params.avatarURL;
+  if (!avatarURL) {
+    return res.status(404).json({
+      err: "Not an image",
+    });
   }
 
   try {
-    const filePath = path.join(user.avatarURL);
+    const filePath = path.join(process.cwd(), "public", "avatars", avatarURL);
     if (fs.existsSync(filePath)) {
       const mimeType = mime.lookup(filePath);
       if (mimeType) {

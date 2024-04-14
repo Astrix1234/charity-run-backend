@@ -45,7 +45,12 @@ export const updateUserAvatar = async (req, res, next) => {
     }
 
     // Fetch the user's current avatar path
-    const oldAvatarPath = path.join(req.user.avatarURL);
+    const oldAvatarPath = path.join(
+      process.cwd(),
+      "public",
+      "avatars",
+      req.user.avatarURL
+    );
     // Delete the old avatar file
     if (fs.existsSync(oldAvatarPath)) {
       fs.unlink(oldAvatarPath, (err) => {
@@ -58,14 +63,18 @@ export const updateUserAvatar = async (req, res, next) => {
       console.log("Path does not exist, skipping deletion.");
     }
 
+    const newAvatarName = `${crypto.randomBytes(2).toString("hex")}_${
+      file.filename
+    }`;
+
     const avatarPath = path.join(
       process.cwd(),
       "public",
       "avatars",
-      `${crypto.randomBytes(2).toString("hex")}_${file.filename}`
+      newAvatarName
     );
     fs.renameSync(file.path, avatarPath);
-    const user = await userService.updateAvatar(userId, avatarPath);
+    const user = await userService.updateAvatar(userId, newAvatarName);
 
     res.status(200).json(user);
   } catch (error) {
