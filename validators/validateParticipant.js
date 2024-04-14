@@ -23,12 +23,12 @@ export const validateParticipant = async ({
     shirt: Joi.string().required(),
     shirtGender: Joi.string().required(), //for shirt sizes only, not user gender
 
-    time: Joi.number(), //how long user took to finish the race //updated after race
+    time: Joi.number().allow(null), //how long user took to finish the race //updated after race
     status: Joi.string()
       .valid("signed up", "participated")
       .default("signed up"), //updated after race
     paid: Joi.bool().default(false),
-    payment: Joi.object(), //all data needed to track the payment ?
+    payment: Joi.object().allow(null), //all data needed to track the payment ?
     agreementStatements: Joi.boolean().required(),
   });
   const validRaceID = raceID
