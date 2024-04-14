@@ -8,7 +8,7 @@ const registerUser = async (userData) => {
   const verificationToken = nanoid();
   const newUser = new User({
     ...userData,
-    avatarURL: null,
+    avatarURL: "",
     verificationToken,
     verified: false,
   });
