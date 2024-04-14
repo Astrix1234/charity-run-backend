@@ -17,6 +17,7 @@ export const validateParticipationQuery = (req, res, next) => {
       .default("signed up"), //updated after race
     paid: Joi.bool().default(false),
     payment: Joi.object(), //all data needed to track the payment ?
+    agreementStatements: Joi.boolean().required(),
   });
 
   const { error } = schema.validate(req.body);
