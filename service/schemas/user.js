@@ -42,6 +42,10 @@ const user = new Schema({
       "Verification token is required",
     ],
   },
+  agreementStatements: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const User = mongoose.model("user", user);

@@ -38,6 +38,7 @@ const updateParticipation = async ({
   surname,
   email,
   phone,
+  agreementStatements,
 }) => {
   const validRaceID = raceID
     ? raceID
@@ -56,6 +57,7 @@ const updateParticipation = async ({
     surname,
     email,
     phone,
+    agreementStatements,
   };
   return await Participation.findOneAndUpdate(
     { userId, raceID: validRaceID },
@@ -81,6 +83,7 @@ const createParticipation = async ({
   surname,
   email,
   phone,
+  agreementStatements,
 }) => {
   const validRaceID = raceID
     ? raceID
@@ -99,6 +102,7 @@ const createParticipation = async ({
     surname,
     email,
     phone,
+    agreementStatements,
   };
   return await Participation.create(participant);
 };

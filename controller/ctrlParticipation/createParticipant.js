@@ -14,6 +14,7 @@ export const createParticipant = async (req, res, next) => {
     name,
     surname,
     phone,
+    agreementStatements,
   } = req.body;
   try {
     const user = req.user;
@@ -40,6 +41,7 @@ export const createParticipant = async (req, res, next) => {
         email: userMail,
         surname,
         phone,
+        agreementStatements,
       }
     );
 
@@ -62,6 +64,7 @@ export const createParticipant = async (req, res, next) => {
         email: createdParticipation.email,
         surname: createdParticipation.surname,
         phone: createdParticipation.phone,
+        agreementStatements: createdParticipation.agreementStatements,
       },
     });
   } catch (error) {

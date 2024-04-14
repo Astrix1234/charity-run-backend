@@ -51,6 +51,10 @@ const participation = new Schema({
     type: String,
     required: [true, "Phone number is required"],
   },
+  agreementStatements: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Participation = mongoose.model("participation", participation);
