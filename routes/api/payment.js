@@ -12,7 +12,7 @@ routerPayment.post(
   passport.authenticate("jwt", { session: false }),
   registerForParticipation
 );
-routerPayment.get("/payment/finalize?id=*", finalizePayment);
+routerPayment.post("/payment/finalize?id=*", finalizePayment);
 
 // routerPayment.post("/payment/finalize?id=*", (req, res) => {
 //   const notificationData = req.body;
