@@ -84,6 +84,14 @@ const registerPayment = async ({
               .replaceAll("]", "")
           )
         : false;
+
+    console.log(
+      `=================Registering payment LINK: ${transactionLink}=========`,
+      "------------participant-----------",
+      participantData,
+      { ...tokenReq, sign: "(censored)" }
+    );
+
     return {
       data: transactionLink,
       participant: participantData,
