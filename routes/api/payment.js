@@ -12,24 +12,15 @@ routerPayment.post(
   passport.authenticate("jwt", { session: false }),
   registerForParticipation
 );
-routerPayment.get("/payment/finalize", finalizePayment);
+routerPayment.get("/payment/finalize?id=*", finalizePayment);
 
-routerPayment.get("*", (req, res) => {
-  const notificationData = req.body;
-  console.log(
-    "Received notification (get*) from Przelewy24:",
-    notificationData
-  );
-  res.status(200).send("Notification received successfully.");
-});
-
-routerPayment.post("*", (req, res) => {
-  const notificationData = req.body;
-  console.log(
-    "Received notification (post*) from Przelewy24:",
-    notificationData
-  );
-  res.status(200).send("Notification received successfully.");
-});
+// routerPayment.post("/payment/finalize?id=*", (req, res) => {
+//   const notificationData = req.body;
+//   console.log(
+//     "Received notification (post*) from Przelewy24:",
+//     notificationData
+//   );
+//   res.status(200).send("Notification received successfully.");
+// });
 
 export default routerPayment;
