@@ -68,7 +68,6 @@ const registerPayment = async ({
     sessionId,
     sign: crypto.createHash("sha384").update(checkSum).digest("hex"),
   };
-  console.log(`Registering payment`, { ...tokenReq, sign: "(censored)" });
 
   try {
     const paymentToken = await getPaymentToken(tokenReq);
@@ -85,6 +84,14 @@ const registerPayment = async ({
               .replaceAll("]", "")
           )
         : false;
+
+    console.log(
+      `=================Registering payment LINK: ${transactionLink}=========`,
+      "------------participant-----------",
+      participantData,
+      { ...tokenReq, sign: "(censored)" }
+    );
+
     return {
       data: transactionLink,
       participant: participantData,
