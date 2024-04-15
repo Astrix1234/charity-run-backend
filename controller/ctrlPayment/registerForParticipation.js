@@ -3,7 +3,14 @@ import { validateParticipant } from "#validators/validateParticipant.js";
 import { nanoid } from "nanoid";
 
 export const registerForParticipation = async (req, res, next) => {
-  const { amount, participant } = req.body;
+  const {
+    amount,
+    participant,
+    currency = "PLN",
+    description = "Hematobieg registration",
+    country = "PL",
+    language = "pl",
+  } = req.body;
   try {
     if (!req.user || !req.user._id) {
       return res.status(401).json({ message: "Not authorized" });
