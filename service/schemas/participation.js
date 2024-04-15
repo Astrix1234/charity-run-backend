@@ -14,6 +14,7 @@ const participation = new Schema({
   },
   email: {
     type: String,
+    required: [true, "Email is required"],
   },
   km: {
     type: String,

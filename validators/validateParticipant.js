@@ -12,6 +12,10 @@ export const validateParticipant = async ({
   paid,
   payment,
   agreementStatements,
+  name,
+  surname,
+  phone,
+  email,
 }) => {
   const schema = Joi.object({
     // date: Joi.date().required(), //day of the race
@@ -30,6 +34,10 @@ export const validateParticipant = async ({
     paid: Joi.bool().default(false),
     payment: Joi.object().allow(null), //all data needed to track the payment ?
     agreementStatements: Joi.boolean().required(),
+    name: Joi.string().required(),
+    surname: Joi.string().required(),
+    phone: Joi.string().required(),
+    email: Joi.string().email().required(),
   });
   const validRaceID = raceID
     ? raceID
@@ -45,6 +53,10 @@ export const validateParticipant = async ({
     paid,
     payment,
     agreementStatements,
+    name,
+    surname,
+    phone,
+    email,
   };
   const { error } = schema.validate(verifiedParticipant);
   if (error) {

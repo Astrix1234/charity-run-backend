@@ -15,13 +15,7 @@ export const getParticipant = async (req, res, next) => {
         raceID,
       });
 
-    if (!participations || participations.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No participation found for the user" });
-    }
-
-    res.status(200).json(participations);
+    res.status(200).json(participations || []);
   } catch (error) {
     console.error(error);
     next(error);
