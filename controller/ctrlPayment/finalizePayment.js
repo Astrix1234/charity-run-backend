@@ -19,7 +19,7 @@ export const finalizePayment = async (req, res, next) => {
       // return res.status(401).json({ message: "Not authorized" });
     }
     const merchantId = Number(process.env.P24_ID);
-    const confirmed = await paymentService.finalizePayment({
+    const confirmed = await paymentService.confirmPayment({
       merchantId,
       posId: merchantId,
       amount,
@@ -32,7 +32,7 @@ export const finalizePayment = async (req, res, next) => {
       console.error("Transaction not confirmed.");
       return;
     }
-    console.error("Transaction confirmed.");
+    console.log("Transaction confirmed.");
     const participantData =
       cart && cart[0]
         ? JSON.parse(
