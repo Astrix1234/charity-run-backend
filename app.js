@@ -21,7 +21,7 @@ const app = express();
 app.use(express.json());
 
 const corsOptions = {
-  origin: "https://happy-island-035461003.5.azurestaticapps.net",
+  origin: "https://www.bieg.fundacja.hematologiczna.org/",
   credentials: true,
 };
 
