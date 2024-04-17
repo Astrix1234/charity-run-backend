@@ -20,6 +20,11 @@ export const getPaymentToken = async (payment) => {
 
 export const confirmPayment = async (payment) => {
   try {
+    console.log(`=========================================================`);
+    console.log("Confirming transaction. Req.body:", {
+      ...payment,
+      sign: "censored",
+    });
     axios.defaults.baseURL = process.env.P24_URL;
     const response = await axios.put("/transaction/verify", payment, {
       auth: {
@@ -31,8 +36,11 @@ export const confirmPayment = async (payment) => {
     console.log("Transaction confirmed", { ...payment, sign: "censored" });
     return response.data.status === "success";
   } catch (err) {
+    console.log(`=========================================================`);
+    console.error("Error(.response) while confirming payment:", err.response);
+    console.log(`=========================================================`);
     console.error("Error while confirming payment:", err);
-    console.error("Error response:", err.response);
+    console.log(`=========================================================`);
     throw err;
   }
 };
