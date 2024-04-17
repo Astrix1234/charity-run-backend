@@ -21,7 +21,7 @@ const app = express();
 app.use(express.json());
 
 const corsOptions = {
-  origin: "https://bieg.fundacja.hematologiczna.org",
+  origin: "https://www.hematobieg.fundacja.hematologiczna.org",
   credentials: true,
 };
 
