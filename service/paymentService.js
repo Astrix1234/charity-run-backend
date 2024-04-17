@@ -21,7 +21,7 @@ export const getPaymentToken = async (payment) => {
 export const confirmPayment = async (payment) => {
   try {
     axios.defaults.baseURL = process.env.P24_URL;
-    const response = await axios.post("/transaction/verify", payment, {
+    const response = await axios.put("/transaction/verify", payment, {
       auth: {
         username: process.env.P24_USER,
         password: process.env.P24_PASS,
