@@ -18,8 +18,25 @@ export const getPaymentToken = async (payment) => {
   }
 };
 
-export const confirmPayment = async (payment) => {
+export const confirmPayment = async ({
+  merchantId,
+  posId,
+  amount,
+  currency,
+  orderId,
+  sign,
+  sessionId,
+}) => {
   try {
+    payment = {
+      merchantId,
+      posId,
+      amount,
+      currency,
+      orderId,
+      sign,
+      sessionId,
+    };
     console.log(`=========================================================`);
     console.log("Confirming transaction. Req.body:", {
       ...payment,
@@ -37,10 +54,15 @@ export const confirmPayment = async (payment) => {
     return response.data.status === "success";
   } catch (err) {
     console.log(`=========================================================`);
+    console.log("FAILED while confirming transaction. Req.body:", {
+      ...payment,
+      sign: "censored",
+    });
+    console.log(`=========================================================`);
     console.error("Error(.response) while confirming payment:", err.response);
     console.log(`=========================================================`);
-    console.error("Error while confirming payment:", err);
-    console.log(`=========================================================`);
+    // console.error("Error while confirming payment:", err);
+    // console.log(`=========================================================`);
     throw err;
   }
 };
