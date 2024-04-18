@@ -27,16 +27,16 @@ export const confirmPayment = async ({
   sign,
   sessionId,
 }) => {
+  const payment = {
+    merchantId,
+    posId,
+    amount,
+    currency,
+    orderId,
+    sign,
+    sessionId,
+  };
   try {
-    const payment = {
-      merchantId,
-      posId,
-      amount,
-      currency,
-      orderId,
-      sign,
-      sessionId,
-    };
     console.log(`=========================================================`);
     console.log("Confirming transaction. Req.body:", {
       ...payment,
