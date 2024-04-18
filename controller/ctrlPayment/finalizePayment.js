@@ -7,6 +7,7 @@ import {
 
 export const finalizePayment = async (req, res, next) => {
   const { amount, currency, orderId, sign, cart } = req.body;
+  const { email, language } = req.user;
   try {
     const currentURL = req.protocol + "://" + req.get("host") + req.originalUrl;
     const url = new URL(currentURL);
@@ -68,7 +69,10 @@ export const finalizePayment = async (req, res, next) => {
     if (participantData) {
       sendParticipantDetailsEmail({ email, language }, participantData);
     } else {
-      thankYouEmail();
+      thankYouEmail({
+        email: email || process.env.P24_ALT_EMAIL,
+        language: language || "PL",
+      });
     }
   } catch (error) {
     console.error("Error while finalizing transaction", error);
