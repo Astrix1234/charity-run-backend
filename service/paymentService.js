@@ -28,7 +28,7 @@ export const confirmPayment = async ({
   sessionId,
 }) => {
   try {
-    payment = {
+    const payment = {
       merchantId,
       posId,
       amount,
