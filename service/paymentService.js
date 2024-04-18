@@ -1,8 +1,12 @@
 import axios from "axios";
 import crypto from "crypto";
 
-const generateSign = ({ sessionId, merchantId, amount, currency }) => {
+const generateRegisterSign = ({ sessionId, merchantId, amount, currency }) => {
   const checkSum = `{"sessionId":"${sessionId}","merchantId":${merchantId},"amount":${amount},"currency":"${currency}","crc":"${process.env.P24_CRC}"}`;
+  return crypto.createHash("sha384").update(checkSum).digest("hex");
+};
+const generateVerifySign = ({ sessionId, orderId, amount, currency }) => {
+  const checkSum = `{"sessionId":"${sessionId}","orderId":${orderId},"amount":${amount},"currency":"${currency}","crc":"${process.env.P24_CRC}"}`;
   return crypto.createHash("sha384").update(checkSum).digest("hex");
 };
 
@@ -38,7 +42,7 @@ export const confirmPayment = async ({
     amount,
     currency,
     orderId,
-    sign: generateSign({ sessionId, merchantId, amount, currency }),
+    sign: generateVerifySign({ sessionId, orderId, amount, currency }),
     sessionId,
   };
   try {
@@ -64,7 +68,10 @@ export const confirmPayment = async ({
       sign: "censored",
     });
     console.log(`=========================================================`);
-    console.error("Error(.response) while confirming payment:", err.response);
+    console.error(
+      "Error(.response.data) while confirming payment:",
+      err.response.data
+    );
     console.log(`=========================================================`);
     // console.error("Error while confirming payment:", err);
     // console.log(`=========================================================`);
@@ -101,7 +108,7 @@ const registerPayment = async ({
     cart,
     email,
     sessionId,
-    sign: generateSign({ sessionId, merchantId, amount, currency }),
+    sign: generateRegisterSign({ sessionId, merchantId, amount, currency }),
   };
 
   try {
