@@ -11,8 +11,8 @@ export const finalizePayment = async (req, res, next) => {
     const currentURL = req.protocol + "://" + req.get("host") + req.originalUrl;
     const url = new URL(currentURL);
     const searchParams = url.searchParams;
-    const sessionId = searchParams.get("sessionId");
-    console.log("---------finalizePayment------req", req.body);
+    const sessionId = searchParams.get("id");
+    console.log("---------finalizePayment------req from p24", req.body);
     if (!orderId || !sign || amount < 1) {
       console.log("Received invalid transaction notification.");
       return;
