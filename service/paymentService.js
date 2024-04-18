@@ -1,7 +1,12 @@
 import axios from "axios";
 import crypto from "crypto";
 
-export const getPaymentToken = async (payment) => {
+const generateSign = ({ sessionId, merchantId, amount, currency }) => {
+  const checkSum = `{"sessionId":"${sessionId}","merchantId":${merchantId},"amount":${amount},"currency":"${currency}","crc":"${process.env.P24_CRC}"}`;
+  return crypto.createHash("sha384").update(checkSum).digest("hex");
+};
+
+const getPaymentToken = async (payment) => {
   try {
     axios.defaults.baseURL = process.env.P24_URL;
     const response = await axios.post("/transaction/register", payment, {
@@ -24,7 +29,7 @@ export const confirmPayment = async ({
   amount,
   currency,
   orderId,
-  sign,
+  // sign,
   sessionId,
 }) => {
   const payment = {
@@ -33,7 +38,7 @@ export const confirmPayment = async ({
     amount,
     currency,
     orderId,
-    sign,
+    sign: generateSign({ sessionId, merchantId, amount, currency }),
     sessionId,
   };
   try {
@@ -81,7 +86,6 @@ const registerPayment = async ({
   cart,
 }) => {
   const merchantId = Number(process.env.P24_ID);
-  const checkSum = `{"sessionId":"${sessionId}","merchantId":${merchantId},"amount":${amount},"currency":"${currency}","crc":"${process.env.P24_CRC}"}`;
 
   const tokenReq = {
     merchantId,
@@ -97,7 +101,7 @@ const registerPayment = async ({
     cart,
     email,
     sessionId,
-    sign: crypto.createHash("sha384").update(checkSum).digest("hex"),
+    sign: generateSign({ sessionId, merchantId, amount, currency }),
   };
 
   try {
