@@ -60,7 +60,8 @@ export const confirmPayment = async ({
     });
     //returns true if payment is confirmed by p24
     console.log("Transaction confirmed", { ...payment, sign: "censored" });
-    return response.data.status === "success";
+    console.log("Transaction confirmed -  response.data", response.data);
+    return response.data.status == "success";
   } catch (err) {
     console.log(`=========================================================`);
     console.log("FAILED while confirming transaction. Req.body:", {
