@@ -7,12 +7,14 @@ import {
 
 export const finalizePayment = async (req, res, next) => {
   const { amount, currency, orderId, sign, cart } = req.body;
-  const { email, language } = req.user;
+  // const { email, language } = req.user;
   try {
     const currentURL = req.protocol + "://" + req.get("host") + req.originalUrl;
     const url = new URL(currentURL);
     const searchParams = url.searchParams;
     const sessionId = searchParams.get("id");
+    const email = searchParams.get("e");
+    const language = searchParams.get("l");
     console.log("---------finalizePayment------req from p24", req.body);
     if (!orderId || !sign || amount < 1) {
       console.log("Received invalid transaction notification.");
