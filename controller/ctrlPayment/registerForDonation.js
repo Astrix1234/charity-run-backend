@@ -23,8 +23,8 @@ export const registerForDonation = async (req, res, next) => {
       language: language || "pl",
       // waitForResult: true, //p24 will wait for transaction to finish before redirecting back
       urlReturn: process.env.FRONTEND_URL, //p24 redirects there regardless of result
-      // urlStatus: `${process.env.BACKEND_URL}/payment/finalize?id=${sessionId}`, //p24 sends info only if paid
-      urlNotify: `${process.env.BACKEND_URL}/payment/finalize?id=${sessionId}&e=${email}&l=${language}`, //p24 sends info only if paid
+      urlStatus: `${process.env.BACKEND_URL}/payment/finalize?id=${sessionId}&e=${email}&l=${language}`, //p24 sends info only if paid
+      // urlNotify: `${process.env.BACKEND_URL}/payment/finalize?id=${sessionId}&e=${email}&l=${language}`, //p24 sends info only if paid
     });
     res.status(201).json({
       ...data,
