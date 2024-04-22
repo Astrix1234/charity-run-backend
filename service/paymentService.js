@@ -137,7 +137,6 @@ const registerPayment = async ({
       participantData,
       { ...tokenReq, sign: "(censored)" }
     );
-
     return {
       data: transactionLink,
       participant: participantData,

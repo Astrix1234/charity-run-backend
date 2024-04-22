@@ -36,15 +36,9 @@ export const finalizePayment = async (req, res, next) => {
       return;
     }
     console.log("Transaction confirmed.");
-    const participantData =
-      cart && cart[0]
-        ? JSON.parse(
-            String(cart[0].description)
-              .replaceAll("/", "")
-              .replaceAll("[", "")
-              .replaceAll("]", "")
-          )
-        : false;
+    const participantData = await participationService.findParticipant(
+      sessionId
+    );
     const updatedParticipation = await participationService.updateParticipation(
       { ...participantData, payment: orderId, paid: true }
     );
@@ -52,7 +46,7 @@ export const finalizePayment = async (req, res, next) => {
       cart
         ? (`Purchased race participation:`,
           {
-            userId,
+            userId: updatedParticipation.userId,
             raceID: updatedParticipation.raceID,
             km: updatedParticipation.km,
             time: updatedParticipation.time,
@@ -67,11 +61,28 @@ export const finalizePayment = async (req, res, next) => {
           })
         : `Donation of [${amount}] received`
     );
-    console.log("payment finalized successfully.");
+    console.log(
+      "payment finalized successfully.",
+      "email",
+      email,
+      "language",
+      language,
+      "participantData",
+      participantData
+    );
     if (participantData) {
-      sendParticipantDetailsEmail({ email, language }, participantData);
+      console.log("Sending participant details email.", participantData);
+      await sendParticipantDetailsEmail({ email, language }, participantData);
     } else {
-      thankYouEmail({
+      console.log(
+        "Sending participant email.",
+        participantData,
+        "user",
+        req.user,
+        email,
+        language
+      );
+      await thankYouEmail({
         email: email || process.env.P24_ALT_EMAIL,
         language: language || "PL",
       });

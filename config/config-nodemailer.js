@@ -154,7 +154,10 @@ export const sendResetPasswordEmail = async (user, password) => {
   });
 };
 
-export const sendParticipantDetailsEmail = async (user, participant) => {
+export const sendParticipantDetailsEmail = async (
+  { email, language },
+  participant
+) => {
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: parseInt(process.env.SMTP_PORT, 10),
@@ -218,20 +221,20 @@ export const sendParticipantDetailsEmail = async (user, participant) => {
 <p style="font-size: 16px;
     text-align: center;">Koszulka: <strong>${shirtGender}</strong></p>
 <p style="font-size: 16px;
-    text-align: center;">Rozmiar: <strong>${shirtSize}</strong></p>
+    text-align: center;">Rozmiar: <strong>${shirt}</strong></p>
 <p style="font-size: 16px;
     text-align: center;">Życzymy powodzenia!</p>
 </div>`;
 
   const mailOptions = {
     from: process.env.SMTP_USER,
-    to: user.email,
+    to: email,
     subject:
-      user.language == "EN"
+      language == "EN"
         ? "Hematobieg: Your Participation Details"
         : "Hematobieg: Szczegóły Twojego Udziału",
-    text: user.language == "EN" ? contentTextEN : contentTextPL,
-    html: user.language == "EN" ? contentHtmlEN : contentHtmlPL,
+    text: language == "EN" ? contentTextEN : contentTextPL,
+    html: language == "EN" ? contentHtmlEN : contentHtmlPL,
   };
 
   transporter.sendMail(mailOptions, function (error, info) {

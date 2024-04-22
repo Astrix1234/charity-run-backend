@@ -5,6 +5,10 @@ const findLatestParticipation = async (userId) => {
   return Participation.findOne({ userId }, { sort: { $natural: -1 } });
 };
 
+const findParticipant = async (sessionID) => {
+  return Participation.findOne({ sessionID: sessionID });
+};
+
 const getParticipationsOfCurrentUser = async ({ userId, raceID }) => {
   const validRaceID = raceID
     ? raceID
@@ -69,40 +73,28 @@ const updateParticipation = async ({
   );
 };
 
-const createParticipation = async ({
-  userId,
-  raceID,
-  km,
-  time,
-  status,
-  paid,
-  payment,
-  shirt,
-  shirtGender,
-  name,
-  surname,
-  email,
-  phone,
-  agreementStatements,
-}) => {
-  const validRaceID = raceID
-    ? raceID
-    : (await raceService.findLatestRace()).raceID;
-  const participant = {
-    userId,
+const createParticipation = async (participant, sessionID) => {
+  console.log("raceID", participant.raceID);
+  const validRaceID = participant.raceID
+    ? participant.raceID
+    : (await raceService.findLatestRace()).participant.raceID;
+  console.log("validRaceID", validRaceID);
+  participant = {
+    userId: participant.userId,
     raceID: validRaceID,
-    km,
-    time,
-    status,
-    paid,
-    payment,
-    shirt,
-    shirtGender,
-    name,
-    surname,
-    email,
-    phone,
-    agreementStatements,
+    km: participant.km,
+    time: participant.time,
+    status: participant.status,
+    paid: participant.paid,
+    payment: participant.payment,
+    shirt: participant.shirt,
+    shirtGender: participant.shirtGender,
+    name: participant.name,
+    surname: participant.surname,
+    email: participant.email,
+    phone: participant.phone,
+    agreementStatements: participant.agreementStatements,
+    sessionID: sessionID,
   };
   return await Participation.create(participant);
 };
@@ -114,6 +106,7 @@ const findParticipantById = async (participantId) => {
 export default {
   findLatestParticipation,
   updateParticipation,
+  findParticipant,
   getParticipationsOfCurrentUser,
   getAllPaidParticipants,
   getAllParticipants,

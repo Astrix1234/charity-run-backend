@@ -56,6 +56,9 @@ const participation = new Schema({
     type: Boolean,
     default: false,
   },
+  sessionID: {
+    type: String,
+  },
 });
 
 const Participation = mongoose.model("participation", participation);

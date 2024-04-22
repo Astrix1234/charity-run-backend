@@ -1,3 +1,4 @@
+import participationService from "#service/participationService.js";
 import paymentService from "#service/paymentService.js";
 import { nanoid } from "nanoid";
 
@@ -49,9 +50,14 @@ export const registerForParticipation = async (req, res, next) => {
       country,
       language,
       urlReturn: process.env.FRONTEND_URL,
-      urlStatus: `${process.env.BACKEND_URL}/payment/finalize?id=${sessionId}`,
-      urlNotify: `${process.env.BACKEND_URL}/payment/finalize?id=${sessionId}`,
+      urlStatus: `${process.env.BACKEND_URL}/payment/finalize?id=${sessionId}&e=${validEmail}&l=${language}`,
+      urlNotify: `${process.env.BACKEND_URL}/payment/finalize?id=${sessionId}&e=${validEmail}&l=${language}`,
     });
+    const newParticipant = await participationService.createParticipation(
+      participant,
+      sessionId
+    );
+    console.log("Participant created", newParticipant);
     res.status(201).json(data);
   } catch (error) {
     console.error(error);
