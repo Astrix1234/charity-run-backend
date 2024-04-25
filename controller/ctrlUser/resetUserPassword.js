@@ -13,7 +13,7 @@ export const resetUserPassword = async (req, res, next) => {
     const newPassword = crypto.randomBytes(4).toString("hex");
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    await userService.resetPassword(user, hashedPassword);
+    await userService.resetPassword(email, hashedPassword);
     await sendResetPasswordEmail(user, newPassword);
 
     res.status(200).json({ message: "Password reset" });

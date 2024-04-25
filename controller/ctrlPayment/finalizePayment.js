@@ -15,9 +15,8 @@ export const finalizePayment = async (req, res, next) => {
     const sessionId = searchParams.get("id");
     const email = searchParams.get("e");
     const language = searchParams.get("l");
-    console.log("---------finalizePayment------req from p24", req.body);
     if (!orderId || !sign || amount < 1) {
-      console.log("Received invalid transaction notification.");
+      console.error("Received invalid transaction notification.");
       return;
       // return res.status(401).json({ message: "Not authorized" });
     }
@@ -35,53 +34,16 @@ export const finalizePayment = async (req, res, next) => {
       console.error("Transaction not confirmed.");
       return;
     }
-    console.log("Transaction confirmed.");
     const participantData = await participationService.findParticipant(
       sessionId
     );
     const updatedParticipation = await participationService.updateParticipation(
-      { ...participantData, payment: orderId, paid: true }
-    );
-    console.log(
-      cart
-        ? (`Purchased race participation:`,
-          {
-            userId: updatedParticipation.userId,
-            raceID: updatedParticipation.raceID,
-            km: updatedParticipation.km,
-            time: updatedParticipation.time,
-            status: updatedParticipation.status,
-            paid: updatedParticipation.paid,
-            payment: updatedParticipation.payment,
-            shirt: updatedParticipation.shirt,
-            shirtGender: updatedParticipation.shirtGender,
-            name: updatedParticipation.name,
-            email: updatedParticipation.email,
-            surname: updatedParticipation.surname,
-          })
-        : `Donation of [${amount}] received`
-    );
-    console.log(
-      "payment finalized successfully.",
-      "email",
-      email,
-      "language",
-      language,
-      "participantData",
-      participantData
+      sessionId,
+      { paid: true, payment: orderId }
     );
     if (participantData) {
-      console.log("Sending participant details email.", participantData);
       await sendParticipantDetailsEmail({ email, language }, participantData);
     } else {
-      console.log(
-        "Sending participant email.",
-        participantData,
-        "user",
-        req.user,
-        email,
-        language
-      );
       await thankYouEmail({
         email: email || process.env.P24_ALT_EMAIL,
         language: language || "PL",

@@ -28,57 +28,26 @@ const getAllParticipants = async (raceID) => {
   return Participation.find({ raceID: validRaceID });
 };
 
-const updateParticipation = async ({
-  userId,
-  raceID,
-  km,
-  time,
-  status,
-  paid,
-  payment,
-  shirt,
-  shirtGender,
-  name,
-  surname,
-  email,
-  phone,
-  agreementStatements,
-}) => {
-  const validRaceID = raceID
-    ? raceID
-    : (await raceService.findLatestRace()).raceID;
-  const participant = {
-    userId,
-    raceID: validRaceID,
-    km,
-    time,
-    status,
-    paid,
-    payment,
-    shirt,
-    shirtGender,
-    name,
-    surname,
-    email,
-    phone,
-    agreementStatements,
-  };
-  return await Participation.findOneAndUpdate(
-    { userId, raceID: validRaceID },
-    participant,
-    {
+const updateParticipation = async (sessionID, participant) => {
+  try {
+    const validRaceID = participant.raceID
+      ? participant.raceID
+      : (await raceService.findLatestRace()).raceID;
+    participant.raceID = validRaceID;
+
+    return Participation.findOneAndUpdate({ sessionID }, participant, {
       new: true,
-      upsert: true,
-    }
-  );
+    });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
 
 const createParticipation = async (participant, sessionID) => {
-  console.log("raceID", participant.raceID);
   const validRaceID = participant.raceID
     ? participant.raceID
     : (await raceService.findLatestRace()).participant.raceID;
-  console.log("validRaceID", validRaceID);
   participant = {
     userId: participant.userId,
     raceID: validRaceID,

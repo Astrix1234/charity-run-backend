@@ -60,7 +60,7 @@ export const validateParticipant = async ({
   };
   const { error } = schema.validate(verifiedParticipant);
   if (error) {
-    console.log(
+    console.error(
       `------------validatePArticipant - error ----------------`,
       error
     );

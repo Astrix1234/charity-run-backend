@@ -46,11 +46,6 @@ export const confirmPayment = async ({
     sessionId,
   };
   try {
-    console.log(`=========================================================`);
-    console.log("Confirming transaction. Req.body:", {
-      ...payment,
-      sign: "censored",
-    });
     axios.defaults.baseURL = process.env.P24_URL;
     const response = await axios.put("/transaction/verify", payment, {
       auth: {
@@ -59,26 +54,12 @@ export const confirmPayment = async ({
       },
     });
     //returns true if payment is confirmed by p24
-    console.log(
-      "Transaction confirmed",
-      { ...payment, sign: "censored" },
-      response.data
-    );
     return response.data.data.status == "success";
   } catch (err) {
-    console.log(`=========================================================`);
-    console.log("FAILED while confirming transaction. Req.body:", {
-      ...payment,
-      sign: "censored",
-    });
-    console.log(`=========================================================`);
     console.error(
       "Error(.response.data) while confirming payment:",
       err.response.data
     );
-    console.log(`=========================================================`);
-    // console.error("Error while confirming payment:", err);
-    // console.log(`=========================================================`);
     throw err;
   }
 };
@@ -117,9 +98,9 @@ const registerPayment = async ({
 
   try {
     const paymentToken = await getPaymentToken(tokenReq);
-    const transactionLink = `https://sandbox.przelewy24.pl/trnRequest/${paymentToken.data.token}`;
+    // const transactionLink = `https://sandbox.przelewy24.pl/trnRequest/${paymentToken.data.token}`;
     // below is link for real transfers, above link for sandbox !!!!!!!!!!
-    // const transactionLink = `https://secure.przelewy24.pl/trnRequest/${paymentToken.data.token}`;
+    const transactionLink = `https://secure.przelewy24.pl/trnRequest/${paymentToken.data.token}`;
 
     const participantData =
       cart && cart[0]
@@ -130,13 +111,6 @@ const registerPayment = async ({
               .replaceAll("]", "")
           )
         : false;
-
-    console.log(
-      `=================Registering payment LINK: ${transactionLink}=========`,
-      "------------participant-----------",
-      participantData,
-      { ...tokenReq, sign: "(censored)" }
-    );
     return {
       data: transactionLink,
       participant: participantData,

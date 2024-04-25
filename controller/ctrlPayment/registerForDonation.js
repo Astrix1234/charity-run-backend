@@ -26,7 +26,6 @@ export const registerForDonation = async (req, res, next) => {
       urlStatus: `${process.env.BACKEND_URL}/payment/finalize?id=${sessionId}&e=${email}&l=${language}`, //p24 sends info only if paid
       urlNotify: `${process.env.BACKEND_URL}/payment/finalize?id=${sessionId}&e=${email}&l=${language}`, //p24 sends info only if paid
     });
-    console.log("urlNotify", data);
     res.status(201).json({ ...data });
   } catch (error) {
     console.error(error);

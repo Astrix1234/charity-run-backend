@@ -173,7 +173,7 @@ export const sendParticipantDetailsEmail = async (
     },
   });
 
-  const { name, surname, shirtGender, shirtSize, phone } = participant;
+  const { name, surname, shirtGender, shirt, phone } = participant;
 
   const contentTextEN = `Thank you for joining Hematobieg!`;
   const contentHtmlEN = `
@@ -196,7 +196,7 @@ export const sendParticipantDetailsEmail = async (
   <p style="font-size: 16px;
     text-align: center;">Shirt: <strong>${shirtGender}</strong></p>
   <p style="font-size: 16px;
-    text-align: center;">Size: <strong>${shirtSize}</strong></p>
+    text-align: center;">Size: <strong>${shirt}</strong></p>
   <p style="font-size: 16px;
     text-align: center;">We whish You Good luck!</p>
   </div>`;

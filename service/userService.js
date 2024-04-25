@@ -83,7 +83,7 @@ const updateAvatar = async (userId, imagePath) => {
 };
 
 const resetPassword = async (email, password) => {
-  return await User.findOneAndUpdate(email, { password }, { new: true });
+  return User.findOneAndUpdate({ email }, { password }, { new: true });
 };
 
 export default {

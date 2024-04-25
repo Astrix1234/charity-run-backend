@@ -57,7 +57,6 @@ export const registerForParticipation = async (req, res, next) => {
       participant,
       sessionId
     );
-    console.log("Participant created", newParticipant);
     res.status(201).json(data);
   } catch (error) {
     console.error(error);
