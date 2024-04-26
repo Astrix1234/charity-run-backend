@@ -27,10 +27,8 @@ export const getParticipant = async (req, res, next) => {
   }
 
   try {
-    const name = req.user.name;
     const email = req.user.email;
     const participations = await participationService.findLatestParticipation({
-      name,
       email,
     });
     res.status(200).json(participations);
