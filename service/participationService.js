@@ -1,8 +1,8 @@
 import Participation from "./schemas/participation.js";
 import raceService from "#service/raceService.js";
 
-const findLatestParticipation = async (userId) => {
-  return Participation.findOne({ userId }, { sort: { $natural: -1 } });
+const findLatestParticipation = async (name, email) => {
+  return Participation.findOne(name, email);
 };
 
 const findParticipant = async (sessionID) => {
