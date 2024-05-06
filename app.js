@@ -21,10 +21,11 @@ const app = express();
 app.use(express.json());
 
 const corsOptions = {
-  origin: [
-    "https://www.hematobieg.fundacja.hematologiczna.org",
-    "https://secure.przelewy24.pl/trnRequest",
-  ],
+  // origin: [
+  //   "https://www.hematobieg.fundacja.hematologiczna.org",
+  //   "https://secure.przelewy24.pl/trnRequest",
+  // ],
+  origin: "*",
   credentials: true,
 };
 
